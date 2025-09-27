@@ -1,0 +1,175 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+
+export interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  lastUpdate?: Date;
+  author?: string;
+  tags?: string[];
+  image?: string;
+  imageAlt?: string;
+  category?: string;
+  level?: string;
+  estimatedTime?: string;
+  ethicalDisclaimer?: boolean;
+}
+
+const {
+  title,
+  description,
+  publishDate,
+  lastUpdate,
+  author = 'Equipo Infohack',
+  tags = [],
+  image,
+  imageAlt,
+  category,
+  level,
+  estimatedTime,
+  ethicalDisclaimer = false
+} = Astro.props;
+
+const formattedDate = format(publishDate, "d 'de' MMMM, yyyy", { locale: es });
+const formattedUpdateDate = lastUpdate ? format(lastUpdate, "d 'de' MMMM, yyyy", { locale: es }) : null;
+---
+
+<BaseLayout
+  title={`${title} | Infohack`}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  type="article"
+>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Navegación placeholder -->
+    <nav class="bg-white shadow-sm border-b">
+      <div class="container-custom py-4">
+        <a href="/" class="text-xl font-bold text-primary-950">
+          🛡️ Infohack
+        </a>
+      </div>
+    </nav>
+
+    <!-- Header del artículo -->
+    <header class="bg-white border-b">
+      <div class="container-custom py-8">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-4 text-sm">
+          <a href="/" class="text-gray-500 hover:text-accent-700">Inicio</a>
+          <span class="mx-2 text-gray-400">/</span>
+          {category && (
+            <>
+              <a href={`/${category}`} class="text-gray-500 hover:text-accent-700 capitalize">{category}</a>
+              <span class="mx-2 text-gray-400">/</span>
+            </>
+          )}
+          <span class="text-gray-900">{title}</span>
+        </nav>
+
+        <!-- Disclaimer de seguridad (si aplica) -->
+        {ethicalDisclaimer && (
+          <div class="security-disclaimer mb-6">
+            <p>
+              <strong>⚠️ Contenido educativo:</strong> La información de este tutorial debe usarse únicamente en sistemas propios o con autorización explícita. El uso indebido de estas técnicas puede ser ilegal.
+            </p>
+          </div>
+        )}
+
+        <!-- Título y metadatos -->
+        <div class="max-w-4xl">
+          <h1 class="text-4xl md:text-5xl font-bold text-primary-950 mb-4 text-balance">
+            {title}
+          </h1>
+          
+          <p class="text-xl text-gray-600 mb-6 text-balance">
+            {description}
+          </p>
+          
+          <!-- Metadatos del artículo -->
+          <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+            <div class="flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Publicado: {formattedDate}</span>
+            </div>
+            
+            {formattedUpdateDate && (
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Actualizado: {formattedUpdateDate}</span>
+              </div>
+            )}
+            
+            <div class="flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Por: {author}</span>
+            </div>
+            
+            {estimatedTime && (
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Tiempo estimado: {estimatedTime}</span>
+              </div>
+            )}
+          </div>
+          
+          <!-- Tags y nivel -->
+          {(tags.length > 0 || level) && (
+            <div class="flex flex-wrap gap-2 mb-6">
+              {level && (
+                <span class={`tag ${level === 'principiante' ? 'tag-level-beginner' : level === 'intermedio' ? 'tag-level-intermediate' : 'tag-level-advanced'}`}>
+                  {level}
+                </span>
+              )}
+              {tags.map(tag => (
+                <span class="tag tag-primary">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido del artículo -->
+    <main>
+      <article class="container-custom py-8">
+        <div class="max-w-4xl mx-auto">
+          <div class="prose prose-lg max-w-none">
+            <slot />
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- Footer placeholder -->
+    <footer class="bg-primary-950 text-white py-8 mt-16">
+      <div class="container-custom">
+        <div class="text-center">
+          <p class="text-gray-300">
+            © 2025 Infohack. Contenido educativo sobre ciberseguridad.
+          </p>
+          <p class="text-sm text-gray-400 mt-2">
+            <a href="/responsible-disclosure" class="hover:text-white transition-colors">
+              Responsible Disclosure
+            </a>
+            {' · '}
+            <a href="/aviso-legal" class="hover:text-white transition-colors">
+              Aviso Legal
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

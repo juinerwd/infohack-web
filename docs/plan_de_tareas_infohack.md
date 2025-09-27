@@ -1,6 +1,14 @@
 # Plan de tareas — Proyecto **Infohack**
 
-> Documento: lista de tareas estilo *todo* para desarrollar el sitio informativo Infohack (Astro). Organizado por fases y áreas: técnico, contenido, diseño, seguridad y lanzamiento.
+> Doc##- [x] Hero en home con CTA: "Soy usuario / Quiero aprender"
+- [x] Página: Protege tus datos (colección con tarjetas) — *Vista previa en homepage*
+- [x] Página: Aprende ciberseguridad (colección con tarjetas) — *Vista previa en homepage*
+- [ ] Página: Tutoriales (lista, filtros por nivel)
+- [ ] Página: Recursos (lista de enlaces categorizados)
+- [ ] Página: Noticias (blog list)
+- [ ] Página: Contacto (formulario con Formspree o Netlify Forms)
+- [x] Footer con aviso legal y enlace a responsible disclosureX mínimas
+- [x] Hero en home con CTA: "Soy usuario / Quiero aprender"ento: lista de tareas estilo *todo* para desarrollar el sitio informativo Infohack (Astro). Organizado por fases y áreas: técnico, contenido, diseño, seguridad y lanzamiento.
 
 ---
 
@@ -13,23 +21,30 @@
 
 # Lista de tareas (formato: checklist)
 
-## Fase 0 — Preparación
-- [ ] Crear repositorio en GitHub: `infohack-web` (incluir README con objetivo y licencia) 🔄 *Pendiente: crear en GitHub*
+## Fase 0 — Preparación ✅
+- [x] Crear repositorio en GitHub: `infohack-web` (incluir README con objetivo y licencia)
 - [x] Configurar _branching_ (main, develop)
 - [x] Crear proyecto en Astro (template base)
 - [x] Añadir .gitignore, LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md
 - [x] Definir paleta de colores y tipografías (usaremos: `#0f1724` base, `#018a2c` acento)
 
 ## Fase 1 — MVP (Infraestructura y despliegue)
-### Configuración técnica
-- [ ] Inicializar Astro + Tailwind CSS
-- [ ] Configurar Astro Content Collections para: `tutorials`, `news`, `resources`
-- [ ] Crear layout base (`BaseLayout.astro`) y `BlogLayout.astro`
-- [ ] Componentes: NavBar, Footer, Card, PostList, Hero, Tag, SearchInput (placeholder)
-- [ ] Configurar SEO básico: `<head>` dinámico, OpenGraph, Twitter Card
+### Configuración técnica ✅
+- [x] Inicializar Astro + Tailwind CSS
+- [x] Configurar Astro Content Collections para: `tutorials`, `news`, `resources`
+- [x] Crear layout base (`BaseLayout.astro`) y `BlogLayout.astro`
+- [x] Componentes: NavBar, Footer, Card, PostList, Hero, Tag, SearchInput (placeholder)
+- [x] Configurar SEO básico: `<head>` dinámico, OpenGraph, Twitter Card
 - [ ] Generar sitemap.xml y RSS feed
 - [ ] Configurar deploy en Vercel (o Netlify) y conectar al repo
 - [ ] Añadir CI básico (GitHub Actions) para build y tests de linter
+
+**✅ Correcciones técnicas realizadas:**
+- [x] Arreglar compatibilidad con Tailwind CSS 4
+- [x] Solucionar problemas de contraste de texto en todos los componentes
+- [x] Reemplazar clases personalizadas por clases nativas de Tailwind
+- [x] Configurar URLs canónicas y metadatos SEO
+- [x] Implementar página de inicio funcional con contenido de ejemplo
 
 ### Contenido inicial (crear archivos Markdown)
 - [ ] Crear 3–5 artículos **Protege tus datos** (usuarios comunes):
@@ -100,10 +115,16 @@
 - [ ] Revisar y actualizar contenido crítico cada 3–6 meses
 - [ ] Backup periódico del repo y assets
 
-## Seguridad editorial (normas importantes)
-- [ ] Incluir disclaimer visible en cada tutorial: "Contenido educativo — no usar en sistemas sin autorización"
-- [ ] Prohibir la publicación de payloads/exploits que puedan usarse directamente en producción
-- [ ] Promover responsible disclosure: correo y/o formulario dedicado
+## Seguridad editorial (normas importantes) ✅
+- [x] Incluir disclaimer visible en cada tutorial: "Contenido educativo — no usar en sistemas sin autorización"
+- [x] Prohibir la publicación de payloads/exploits que puedan usarse directamente en producción  
+- [x] Promover responsible disclosure: correo y/o formulario dedicado
+
+**✅ Implementado en:**
+- Footer con disclaimer ético visible
+- BlogLayout con disclaimer automático para tutoriales
+- Enlaces a responsible disclosure en footer
+- Código de conducta con normas éticas específicas
 
 ## Tareas opcionales / futuras ideas
 - [ ] Traducción al inglés (i18n)

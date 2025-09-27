@@ -1,11 +1,178 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Hero from '../components/Hero.astro';
+import Card from '../components/Card.astro';
+import Footer from '../components/Footer.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Contenido de ejemplo para la página principal
+const featuredGuides = [
+  {
+    title: 'Contraseñas Seguras: Guía Completa',
+    description: 'Aprende a crear y gestionar contraseñas fuertes que protejan tus cuentas digitales.',
+    href: '/guides/contraseñas-seguras',
+    category: 'protege-tus-datos',
+    difficulty: 'fácil' as const,
+    estimatedTime: '10 minutos',
+    publishDate: new Date('2025-01-15'),
+    tags: ['contraseñas', 'autenticacion', '2fa'],
+    author: 'Equipo Infohack',
+    featured: true
+  },
+  {
+    title: 'Detectar Phishing: Protégete de Estafas', 
+    description: 'Identifica correos y mensajes fraudulentos antes de que comprometan tu seguridad.',
+    href: '/guides/detectar-phishing',
+    category: 'protege-tus-datos',
+    difficulty: 'fácil' as const,
+    estimatedTime: '8 minutos',
+    publishDate: new Date('2025-01-12'),
+    tags: ['phishing', 'correo', 'whatsapp'],
+    author: 'Equipo Infohack',
+    featured: false
+  },
+  {
+    title: 'Seguridad en Wi-Fi Públicas',
+    description: 'Navega seguro en redes públicas y protege tu información personal.',
+    href: '/guides/wifi-publicas',
+    category: 'protege-tus-datos',
+    difficulty: 'fácil' as const,
+    estimatedTime: '12 minutos',
+    publishDate: new Date('2025-01-10'),
+    tags: ['wifi', 'redes', 'vpn'],
+    author: 'Equipo Infohack',
+    featured: false
+  }
+];
+
+const featuredTutorials = [
+  {
+    title: 'Qué es el Hacking Ético',
+    description: 'Conceptos fundamentales y principios éticos en ciberseguridad.',
+    href: '/tutorials/hacking-etico-conceptos',
+    category: 'general',
+    level: 'principiante' as const,
+    estimatedTime: '20 minutos',
+    publishDate: new Date('2025-01-18'),
+    tags: ['etica', 'conceptos', 'introduccion'],
+    author: 'Equipo Infohack',
+    featured: true
+  },
+  {
+    title: 'Laboratorio Seguro: Configurar VMs',
+    description: 'Monta tu propio laboratorio virtual para practicar de forma segura.',
+    href: '/tutorials/laboratorio-virtual',
+    category: 'general',
+    level: 'principiante' as const,
+    estimatedTime: '45 minutos',
+    publishDate: new Date('2025-01-16'),
+    tags: ['laboratorio', 'virtualbox', 'vmware'],
+    author: 'Equipo Infohack',
+    featured: false
+  },
+  {
+    title: 'OWASP Top 10 para Principiantes',
+    description: 'Las vulnerabilidades web más comunes explicadas de forma simple.',
+    href: '/tutorials/owasp-top-10',
+    category: 'web-security',
+    level: 'intermedio' as const,
+    estimatedTime: '35 minutos',
+    publishDate: new Date('2025-01-14'),
+    tags: ['owasp', 'web', 'vulnerabilidades'],
+    author: 'Equipo Infohack',
+    featured: false
+  }
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="Infohack - Ciberseguridad Accesible"
+  description="Aprende ciberseguridad de forma accesible. Guías para usuarios comunes y tutoriales éticos para principiantes. Todo el contenido es educativo y responsable."
+>
+  <!-- Navegación -->
+  <NavBar currentPath={currentPath} />
+  
+  <!-- Hero Section -->
+  <Hero />
+  
+  <!-- Contenido principal -->
+  <main class="bg-gray-50">
+    <!-- Sección para usuarios comunes -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+            🛡️ Protege tus Datos
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Guías simples y prácticas para que cualquier usuario pueda mejorar su seguridad digital
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {featuredGuides.map(guide => (
+            <Card {...guide} />
+          ))}
+        </div>
+        
+        <div class="text-center">
+          <a href="/guides" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-block">
+            Ver todas las guías
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Sección para aprendices -->
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+            🎓 Aprende Ciberseguridad
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Tutoriales éticos y responsables para principiantes e intermedios
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {featuredTutorials.map(tutorial => (
+            <Card {...tutorial} />
+          ))}
+        </div>
+        
+        <div class="text-center">
+          <a href="/tutorials" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-block">
+            Ver todos los tutoriales
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Call to Action final -->
+    <section class="py-16 bg-slate-800 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold mb-4">
+          ¿Quieres contribuir?
+        </h2>
+        <p class="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
+          Infohack es una comunidad. Si tienes conocimientos en ciberseguridad, 
+          ayúdanos a crear contenido educativo y ético.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contact" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-6 py-3 rounded-lg font-medium transition-colors duration-200 backdrop-blur-sm">
+            📧 Contactar
+          </a>
+          <a href="https://github.com/juinerwd/infohack-web" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-6 py-3 rounded-lg font-medium transition-colors duration-200 backdrop-blur-sm" target="_blank" rel="noopener noreferrer">
+            ⚡ GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <Footer />
+</BaseLayout>

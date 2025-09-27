@@ -1,0 +1,88 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  canonical?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = 'Aprende ciberseguridad de forma accesible. Guías para usuarios comunes y tutoriales para principiantes en hacking ético.',
+  image = '/og-image.png',
+  imageAlt = 'Infohack - Ciberseguridad accesible',
+  canonical,
+  noindex = false,
+  type = 'website'
+} = Astro.props;
+
+const siteURL = Astro.site || new URL(Astro.url.origin);
+const canonicalURL = canonical ? new URL(canonical, siteURL) : new URL(Astro.url.pathname, siteURL);
+const socialImage = new URL(image, siteURL);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Meta básicos -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:site_name" content="Infohack" />
+    <meta property="og:locale" content="es_ES" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImage} />
+    <meta property="twitter:image:alt" content={imageAlt} />
+    
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    
+    <!-- Estilos globales -->
+    <style is:global>
+      @import '../styles/global.css';
+    </style>
+    
+    <!-- Theme color -->
+    <meta name="theme-color" content="#0f1724" />
+    
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 antialiased">
+    <slot />
+    
+    <!-- Analytics placeholder (para después) -->
+    <!-- <script type="text/partytown" src="/analytics.js"></script> -->
+  </body>
+</html>

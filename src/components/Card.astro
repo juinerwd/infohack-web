@@ -1,0 +1,140 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  href: string;
+  publishDate?: Date;
+  author?: string;
+  tags?: string[];
+  category?: string;
+  level?: 'principiante' | 'intermedio' | 'avanzado' | 'fácil' | 'medio';
+  difficulty?: 'fácil' | 'medio';
+  estimatedTime?: string;
+  image?: string;
+  imageAlt?: string;
+  featured?: boolean;
+}
+
+const {
+  title,
+  description,
+  href,
+  publishDate,
+  author = 'Equipo Infohack',
+  tags = [],
+  category,
+  level,
+  difficulty,
+  estimatedTime,
+  image,
+  imageAlt,
+  featured = false
+} = Astro.props;
+
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+
+const formattedDate = publishDate ? format(publishDate, "d MMM yyyy", { locale: es }) : null;
+const displayLevel = level || difficulty;
+---
+
+<article class={`bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 p-6 h-full flex flex-col ${featured ? 'ring-2 ring-green-500' : ''}`}>
+  {featured && (
+    <div class="flex items-center mb-3">
+      <span class="bg-accent-500 text-white text-xs font-medium px-2 py-1 rounded-full">
+        ⭐ Destacado
+      </span>
+    </div>
+  )}
+  
+  {image && (
+    <div class="mb-4">
+      <img
+        src={image}
+        alt={imageAlt || title}
+        class="w-full h-40 object-cover rounded-lg"
+        loading="lazy"
+      />
+    </div>
+  )}
+  
+  <div class="flex-1 flex flex-col">
+    <header class="mb-3">
+      <h3 class="text-lg font-semibold text-slate-800 mb-2 leading-tight">
+        <a href={href} class="hover:text-green-700 transition-colors">
+          {title}
+        </a>
+      </h3>
+      
+      <p class="text-gray-600 text-sm line-clamp-3">
+        {description}
+      </p>
+    </header>
+    
+    <!-- Metadatos -->
+    <div class="mt-auto">
+      {(tags.length > 0 || displayLevel || category) && (
+        <div class="flex flex-wrap gap-2 mb-3">
+          {displayLevel && (
+            <span class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+              displayLevel === 'principiante' || displayLevel === 'fácil'
+                ? 'bg-green-100 text-green-800'
+                : displayLevel === 'intermedio' || displayLevel === 'medio'
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {displayLevel}
+            </span>
+          )}
+          
+          {category && (
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              {category}
+            </span>
+          )}
+          
+          {tags.slice(0, 2).map(tag => (
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">#{tag}</span>
+          ))}
+          
+          {tags.length > 2 && (
+            <span class="text-xs text-gray-500">+{tags.length - 2}</span>
+          )}
+        </div>
+      )}
+      
+      <footer class="flex items-center justify-between text-xs text-gray-500">
+        <div class="flex items-center space-x-3">
+          {formattedDate && (
+            <span class="flex items-center">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+              </svg>
+              {formattedDate}
+            </span>
+          )}
+          
+          {estimatedTime && (
+            <span class="flex items-center">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+              </svg>
+              {estimatedTime}
+            </span>
+          )}
+        </div>
+        
+        <span class="text-gray-400">Por: {author}</span>
+      </footer>
+    </div>
+  </div>
+</article>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
