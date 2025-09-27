@@ -14,11 +14,11 @@
 # Lista de tareas (formato: checklist)
 
 ## Fase 0 — Preparación
-- [ ] Crear repositorio en GitHub: `infohack-web` (incluir README con objetivo y licencia)
-- [ ] Configurar _branching_ (main, develop)
-- [ ] Crear proyecto en Astro (template base)
-- [ ] Añadir .gitignore, LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md
-- [ ] Definir paleta de colores y tipografías (usaremos: `#0f1724` base, `#018a2c` acento)
+- [ ] Crear repositorio en GitHub: `infohack-web` (incluir README con objetivo y licencia) 🔄 *Pendiente: crear en GitHub*
+- [x] Configurar _branching_ (main, develop)
+- [x] Crear proyecto en Astro (template base)
+- [x] Añadir .gitignore, LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md
+- [x] Definir paleta de colores y tipografías (usaremos: `#0f1724` base, `#018a2c` acento)
 
 ## Fase 1 — MVP (Infraestructura y despliegue)
 ### Configuración técnica
