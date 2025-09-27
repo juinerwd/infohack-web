@@ -22,3 +22,18 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# VS Code settings (optional, keep if you want to share)
+# .vscode/
+
+# OS files
+Thumbs.db
+
+# Local development
+*.local
+.vercel
+.netlify
+
+# Backup files
+*.bak
+*.tmp

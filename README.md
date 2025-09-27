@@ -1,46 +1,79 @@
-# Astro Starter Kit: Basics
+# 🛡️ Infohack
 
-```sh
-npm create astro@latest -- --template basics
-```
+> Sitio web informativo sobre ciberseguridad orientado a usuarios comunes y principiantes/intermedios.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 📋 Objetivo
 
-## 🚀 Project Structure
+**Infohack** es una plataforma educativa que busca democratizar el conocimiento en ciberseguridad, ofreciendo contenido accesible y ético para:
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Usuarios comunes**: Guías prácticas para proteger datos personales, contraseñas seguras, detectar phishing, etc.
+- **Principiantes/Intermedios**: Tutoriales de hacking ético, laboratorios seguros, conceptos técnicos explicados de forma simple.
+
+## 🚀 Tecnologías
+
+- **Astro** - Generador de sitios estáticos
+- **Tailwind CSS** - Framework de utilidades CSS
+- **Content Collections** - Gestión de contenido en Markdown
+- **Vercel/Netlify** - Deploy y hosting
+
+## 🎨 Paleta de colores
+
+- **Base**: `#0f1724` (azul oscuro)
+- **Acento**: `#018a2c` (verde)
+
+## 🚀 Estructura del proyecto
 
 ```text
 /
 ├── public/
 │   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   └── content/
+│       ├── tutorials/
+│       ├── news/
+│       └── resources/
+├── docs/
+│   └── plan_de_tareas_infohack.md
+└── README.md
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🛠️ Comandos
 
-## 🧞 Commands
+```bash
+# Instalar dependencias
+npm install
 
-All commands are run from the root of the project, from a terminal:
+# Desarrollo local
+npm run dev
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+# Build para producción
+npm run build
 
-## 👀 Want to learn more?
+# Preview del build
+npm run preview
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 🤝 Contribución
+
+Este proyecto sigue estrictas normas éticas:
+
+- ✅ Contenido educativo y responsable
+- ❌ No exploits listos para producción
+- ✅ Disclaimer visible en cada tutorial
+- ✅ Promoción de responsible disclosure
+
+Ver `CONTRIBUTING.md` para más detalles.
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
+
+## ⚖️ Ética y responsabilidad
+
+Todo el contenido tiene fines **únicamente educativos**. No usar en sistemas sin autorización explícita.
+
+Para reportar vulnerabilidades de forma responsable: [responsible disclosure](mailto:security@infohack.dev)
