@@ -1,0 +1,207 @@
+---
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import ChecklistBox from "../../components/content/ChecklistBox.astro";
+import WarningAlert from "../../components/content/WarningAlert.astro";
+import StepByStep from "../../components/content/StepByStep.astro";
+import TipCard from "../../components/content/TipCard.astro";
+import CallToAction from "../../components/content/CallToAction.astro";
+
+const pageData = {
+    title: "Cómo detectar intentos de phishing",
+    description:
+        "Aprende a identificar correos, mensajes y sitios web falsos diseñados para robar tu información personal o financiera.",
+    publishDate: new Date("2025-09-27"),
+    author: "Equipo Infohack",
+    tags: ["phishing", "seguridad", "protección de datos", "ciberseguridad"],
+    ulrCategory: "guides",
+    category: "proteccion",
+    level: "principiante",
+    estimatedTime: "20 minutos",
+    ethicalDisclaimer: true,
+    prerequisites: ["Uso básico de correo electrónico e internet"],
+    tools: ["Navegador web", "Sentido crítico", "Antivirus actualizado"],
+};
+
+const senalesPhishing = [
+    "Remitente sospechoso o dirección de correo extraña",
+    "Errores de ortografía o gramática en el mensaje",
+    "Enlaces que no coinciden con el texto mostrado",
+    "Mensajes con urgencia o amenazas (ej. 'tu cuenta será bloqueada')",
+    "Archivos adjuntos inesperados (PDF, ZIP, Word, etc.)",
+    "Solicitudes de datos sensibles (contraseñas, números de tarjeta)",
+];
+
+const pasosProteccion = [
+    {
+        title: "Verifica siempre al remitente",
+        description:
+            "Comprueba la dirección de correo electrónico y asegúrate de que provenga del dominio oficial.",
+    },
+    {
+        title: "No hagas clic directamente en enlaces",
+        description:
+            "Escribe manualmente la dirección en tu navegador o utiliza marcadores guardados.",
+    },
+    {
+        title: "Desconfía de la urgencia",
+        description:
+            "Los atacantes intentan presionarte con tiempo limitado para que no pienses con calma.",
+    },
+    {
+        title: "Nunca compartas información sensible",
+        description:
+            "Tu banco, redes sociales o proveedores nunca pedirán tu contraseña por correo.",
+    },
+    {
+        title: "Activa medidas de seguridad extra",
+        description:
+            "Habilita la autenticación en dos pasos (2FA) y mantén tu antivirus actualizado.",
+    },
+];
+---
+
+<BlogLayout {...pageData}>
+    <div class="guide-content max-w-4xl mx-auto">
+        <!-- Introducción -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                ¿Qué es el phishing?
+            </h2>
+            <div class="prose prose-lg mb-8">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    El <strong>phishing</strong> es una técnica utilizada por ciberdelincuentes
+                    para engañarte y robar tu información personal. Generalmente
+                    llega en forma de correos electrónicos, mensajes de texto o sitios
+                    web falsos que imitan a empresas legítimas.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    Aprender a identificar las señales de un ataque de phishing
+                    puede ayudarte a proteger tus cuentas, tu dinero y tu
+                    privacidad.
+                </p>
+            </div>
+            <WarningAlert type="info" title="Dato importante">
+                Según la Interpol, el phishing es el método más utilizado en el
+                60% de los ciberataques reportados en los últimos años.
+            </WarningAlert>
+        </section>
+
+        <!-- Señales de phishing -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Señales de un intento de phishing
+            </h2>
+            <ChecklistBox
+                title="Cómo reconocer un correo o mensaje sospechoso"
+                items={senalesPhishing}
+                variant="warning"
+            />
+
+            <TipCard title="Ejemplo real" icon="📧" variant="yellow">
+                Un correo que aparenta ser de tu banco con el asunto <em
+                    >"Verificación urgente de tu cuenta"</em
+                >. El remitente es <code>soporte@banco-seguro.net</code> y el enlace
+                apunta a <code>http://login-banco.fakepage.com</code>. ➝ Esto es
+                phishing.
+            </TipCard>
+        </section>
+
+        <!-- Cómo protegerte -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Pasos para protegerte
+            </h2>
+            <StepByStep steps={pasosProteccion} />
+        </section>
+
+        <!-- Herramientas útiles -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Herramientas que pueden ayudarte
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <TipCard title="Have I Been Pwned" icon="🔍" variant="blue">
+                    <p class="mb-2">
+                        <strong>Comprueba si tus datos fueron filtrados</strong>
+                    </p>
+                    <p class="text-sm">
+                        Introduce tu email para saber si aparece en alguna
+                        brecha de seguridad conocida.
+                    </p>
+                    <a
+                        href="https://haveibeenpwned.com"
+                        target="_blank"
+                        class="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                        → Visitar Have I Been Pwned
+                    </a>
+                </TipCard>
+
+                <TipCard
+                    title="Extensiones anti-phishing"
+                    icon="🛡️"
+                    variant="green"
+                >
+                    <p class="mb-2">
+                        <strong>Navega con protección extra</strong>
+                    </p>
+                    <p class="text-sm">
+                        Usa extensiones de navegador que bloquean sitios
+                        sospechosos y te alertan de posibles fraudes.
+                    </p>
+                </TipCard>
+            </div>
+        </section>
+
+        <!-- Qué hacer si caíste en phishing -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Qué hacer si caíste en phishing
+            </h2>
+            <WarningAlert type="danger" title="Actúa de inmediato">
+                Si diste información en un sitio de phishing, cambia tus
+                contraseñas de inmediato, activa 2FA en todas tus cuentas y
+                contacta con tu banco o proveedor de servicios para reportar la
+                situación.
+            </WarningAlert>
+        </section>
+
+        <!-- Llamada a la acción -->
+        <CallToAction
+            title="Mantente siempre alerta"
+            description="El phishing puede engañar incluso a los usuarios más experimentados. Detectar las señales a tiempo es clave para proteger tu seguridad digital."
+            variant="warning"
+        >
+            <div
+                slot="buttons"
+                class="flex flex-col sm:flex-row gap-4 justify-center"
+            >
+                <a
+                    href="/guides/contraseñas-seguras"
+                    class="border-2 border-yellow-600 text-yellow-600 px-6 py-3 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg"
+                >
+                    Revisar contraseñas seguras →
+                </a>
+                <a
+                    href="/guides/configurar-2fa"
+                    class="border-2 border-yellow-600 text-yellow-600 hover:bg-yellow-50 px-6 py-3 rounded-lg font-medium transition-colors"
+                >
+                    Configurar 2FA
+                </a>
+            </div>
+        </CallToAction>
+    </div>
+</BlogLayout>
+
+<style>
+    .guide-content {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            sans-serif;
+    }
+    .prose {
+        max-width: none;
+    }
+    .prose p {
+        margin-bottom: 1.5rem;
+    }
+</style>

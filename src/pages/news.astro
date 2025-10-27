@@ -1,0 +1,295 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../sections/Header.astro";
+import Card from "../components/Card.astro";
+import { getCollection } from "astro:content";
+
+const currentPath = Astro.url.pathname;
+
+const news = await getCollection("news");
+const sortedNews = news.sort(
+  (a, b) =>
+    new Date(b.data.publishDate).getTime() -
+    new Date(a.data.publishDate).getTime(),
+);
+
+const featuredNews = sortedNews.filter((article) => article.data.featured);
+const regularNews = sortedNews.filter((article) => !article.data.featured);
+---
+
+<BaseLayout
+  title="Noticias de Ciberseguridad - Infohack"
+  description="Últimas noticias, tendencias y análisis del mundo de la ciberseguridad. Mantente informado sobre amenazas, vulnerabilidades y avances tecnológicos."
+>
+  <Header currentPath={currentPath} />
+  <main class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-8">
+    <div class="container mx-auto px-4">
+      <!-- Encabezado -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          📰 Noticias de Ciberseguridad
+        </h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          Mantente informado sobre las últimas amenazas, vulnerabilidades, y
+          avances en el mundo de la ciberseguridad. Análisis técnico con
+          perspectiva ética.
+        </p>
+        <div
+          class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500"
+        >
+          <span class="bg-white px-3 py-1 rounded-full border"
+            >🕒 Actualizado diariamente</span
+          >
+          <span class="bg-white px-3 py-1 rounded-full border"
+            >🔍 Análisis técnico</span
+          >
+          <span class="bg-white px-3 py-1 rounded-full border"
+            >⚖️ Perspectiva ética</span
+          >
+        </div>
+      </div>
+
+      <!-- Noticias destacadas -->
+      {
+        featuredNews.length > 0 && (
+          <section class="mb-16">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+              <span class="text-red-500 mr-2">🔥</span>
+              Noticias Destacadas
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredNews.map((article) => (
+                <Card
+                  title={article.data.title}
+                  description={article.data.description}
+                  href={`/news/${article.slug}/`}
+                  tags={article.data.tags}
+                  publishDate={article.data.publishDate}
+                  category={article.data.category}
+                  author={article.data.author}
+                />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Todas las noticias -->
+      <section>
+        <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+          <span class="text-blue-500 mr-2">📈</span>
+          Todas las Noticias
+          <span class="ml-2 text-sm font-normal text-slate-500">
+            ({sortedNews.length} artículos)
+          </span>
+        </h2>
+
+        {
+          sortedNews.length === 0 ? (
+            <div class="text-center py-16 bg-white rounded-lg shadow-sm border">
+              <div class="text-6xl mb-4">📡</div>
+              <h3 class="text-xl font-semibold text-slate-700 mb-2">
+                Próximamente noticias
+              </h3>
+              <p class="text-slate-500 max-w-md mx-auto">
+                Estamos configurando nuestro sistema de noticias. Pronto tendrás
+                acceso a las últimas novedades en ciberseguridad.
+              </p>
+            </div>
+          ) : (
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sortedNews.map((article) => (
+                <Card
+                  title={article.data.title}
+                  description={article.data.description}
+                  href={`/news/${article.slug}/`}
+                  tags={article.data.tags}
+                  publishDate={article.data.publishDate}
+                  category={article.data.category}
+                  author={article.data.author}
+                />
+              ))}
+            </div>
+          )
+        }
+      </section>
+
+      <!-- Categorías de noticias -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold text-slate-800 mb-8">
+          📂 Categorías de Noticias
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Amenazas -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+          >
+            <div class="text-3xl mb-3">⚠️</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Amenazas</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Nuevos malware, ransomware, ataques APT y campañas de cibercrimen.
+            </p>
+            <div class="text-xs text-slate-500">
+              {news.filter((n) => n.data.category === "amenazas").length} noticias
+            </div>
+          </div>
+
+          <!-- Vulnerabilidades -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+          >
+            <div class="text-3xl mb-3">🛡️</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">
+              Vulnerabilidades
+            </h3>
+            <p class="text-slate-600 text-sm mb-4">
+              CVEs, zero-days, parches de seguridad y análisis técnicos.
+            </p>
+            <div class="text-xs text-slate-500">
+              {
+                news.filter((n) => n.data.category === "vulnerabilidades")
+                  .length
+              } noticias
+            </div>
+          </div>
+
+          <!-- Regulación -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+          >
+            <div class="text-3xl mb-3">⚖️</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">
+              Regulación
+            </h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Nuevas leyes, normativas, multas y políticas de ciberseguridad.
+            </p>
+            <div class="text-xs text-slate-500">
+              {news.filter((n) => n.data.category === "regulacion").length} noticias
+            </div>
+          </div>
+
+          <!-- Industria -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+          >
+            <div class="text-3xl mb-3">🏢</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Industria</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Fusiones, adquisiciones, nuevas tecnologías y tendencias del
+              mercado.
+            </p>
+            <div class="text-xs text-slate-500">
+              {news.filter((n) => n.data.category === "industria").length} noticias
+            </div>
+          </div>
+
+          <!-- Investigación -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+          >
+            <div class="text-3xl mb-3">🔬</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">
+              Investigación
+            </h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Estudios académicos, papers técnicos y avances científicos.
+            </p>
+            <div class="text-xs text-slate-500">
+              {news.filter((n) => n.data.category === "investigacion").length} noticias
+            </div>
+          </div>
+
+          <!-- Eventos -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+          >
+            <div class="text-3xl mb-3">🎤</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Eventos</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Conferencias, workshops, competencias y eventos de la comunidad.
+            </p>
+            <div class="text-xs text-slate-500">0 noticias</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fuentes y metodología -->
+      <section
+        class="mt-16 bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-lg border border-blue-200"
+      >
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-blue-800 mb-4">
+            📊 Nuestra Metodología
+          </h2>
+          <p class="text-blue-700 max-w-2xl mx-auto">
+            Agregamos y analizamos información de fuentes confiables para
+            ofrecerte una perspectiva completa y ética del panorama de
+            ciberseguridad.
+          </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-32">
+            <!-- Fuentes -->
+            <div>
+              <h3 class="text-lg font-semibold text-blue-800 mb-3">
+                🔍 Fuentes Confiables
+              </h3>
+              <ul class="text-blue-700 text-sm space-y-1">
+                <li>• CVE Database y NVD (NIST)</li>
+                <li>• CERT/CC y equipos nacionales de respuesta</li>
+                <li>• Investigadores y empresas de seguridad reconocidas</li>
+                <li>• Organizaciones gubernamentales (INCIBE, ENISA)</li>
+                <li>• Conferencias técnicas y papers académicos</li>
+              </ul>
+            </div>
+
+            <!-- Principios -->
+            <div>
+              <h3 class="text-lg font-semibold text-blue-800 mb-3">
+                ⚖️ Principios Editoriales
+              </h3>
+              <ul class="text-blue-700 text-sm space-y-1">
+                <li>• Verificación cruzada de información</li>
+                <li>• Enfoque educativo y preventivo</li>
+                <li>• No publicar exploits funcionales</li>
+                <li>• Responsabilidad en divulgación de vulnerabilidades</li>
+                <li>• Contexto ético en cada artículo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Llamada a la acción -->
+      <section
+        class="mt-16 bg-gradient-to-r from-green-50 to-green-100 p-8 rounded-lg border border-green-200"
+      >
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-green-800 mb-4">
+            ¿Quieres estar siempre informado?
+          </h2>
+          <p class="text-green-700 mb-6 max-w-2xl mx-auto">
+            La ciberseguridad evoluciona constantemente. Mantente al día con las
+            últimas amenazas y defensas para protegerte mejor.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/rss.xml"
+              class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition-colors font-medium"
+            >
+              Suscribirse por RSS
+            </a>
+            <a
+              href="/guides"
+              class="border border-green-600 text-green-600 px-6 py-3 rounded-md hover:bg-green-50 transition-colors font-medium"
+            >
+              Ver Guías de Protección
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

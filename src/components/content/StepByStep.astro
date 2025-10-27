@@ -1,0 +1,76 @@
+---
+export interface Props {
+  steps: Array<{
+    title: string;
+    description: string;
+    tip?: string;
+    component?: any;
+  }>;
+  numbered?: boolean;
+}
+
+const { steps, numbered = true } = Astro.props;
+---
+
+<div class="step-by-step-container mb-8">
+  <div class="space-y-6">
+    {
+      steps.map((step, index) => (
+        <div class="flex items-start bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex-shrink-0 mr-4">
+            {numbered ? (
+              <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                {index + 1}
+              </div>
+            ) : (
+              <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl">
+                →
+              </div>
+            )}
+          </div>
+
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+              {step.title}
+            </h3>
+            <p class="text-gray-700 leading-relaxed mb-3">{step.description}</p>
+
+            {step.tip && (
+              <div class="bg-blue-50 border-l-4 border-blue-400 p-3 rounded-r">
+                <div class="flex items-start">
+                  <span class="text-blue-600 mr-2">💡</span>
+                  <span class="text-blue-800 text-sm font-medium">Tip: </span>
+                  <span class="text-blue-700 text-sm">{step.tip}</span>
+                </div>
+              </div>
+            )}
+            <div>
+              {step.component && (
+                <div class="mt-4">
+                  <step.component />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .step-by-step-container {
+    position: relative;
+  }
+
+  .step-by-step-container::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 50px;
+    bottom: 50px;
+    width: 2px;
+    background: linear-gradient(to bottom, #10b981, #059669);
+    z-index: -1;
+  }
+</style>

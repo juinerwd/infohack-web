@@ -1,0 +1,428 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../sections/Header.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const currentPath = Astro.url.pathname;
+
+const resources = await getCollection('resources');
+const sortedResources = resources.sort((a, b) => 
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+const featuredResources = sortedResources.filter(resource => resource.data.featured);
+const regularResources = sortedResources.filter(resource => !resource.data.featured);
+---
+
+<BaseLayout 
+  title="Recursos de Ciberseguridad - Herramientas y Referencias" 
+  description="Colección curada de herramientas, referencias, cursos y recursos para aprender y practicar ciberseguridad de forma ética."
+>
+  <Header currentPath={currentPath} />
+  <main class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-12">
+    <div class="container mx-auto px-4 max-w-7xl">
+      <!-- Encabezado -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          🛠️ Recursos de Ciberseguridad
+        </h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          Colección curada de herramientas, referencias, cursos y laboratorios para aprender 
+          y practicar ciberseguridad. Todo con enfoque educativo y uso ético.
+        </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500">
+          <span class="bg-white px-3 py-1 rounded-full border">✅ Verificados</span>
+          <span class="bg-white px-3 py-1 rounded-full border">🔒 Seguros</span>
+          <span class="bg-white px-3 py-1 rounded-full border">🎓 Educativos</span>
+        </div>
+      </div>
+
+      <!-- Advertencia sobre uso ético -->
+      <div class="max-w-4xl mx-auto bg-amber-50 border border-amber-200 rounded-lg p-6 mb-12">
+        <div class="flex items-start space-x-3">
+          <div class="text-amber-600 text-xl">🎯</div>
+          <div>
+            <h3 class="font-semibold text-amber-800 mb-2">
+              Uso Responsable de Herramientas
+            </h3>
+            <p class="text-amber-700 text-sm leading-relaxed">
+              Todas las herramientas listadas deben usarse únicamente en <strong>entornos propios</strong>, 
+              <strong>laboratorios controlados</strong> o con <strong>autorización explícita</strong>. 
+              El uso no autorizado puede ser <strong>ilegal</strong> y violar códigos éticos profesionales.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recursos destacados -->
+      {featuredResources.length > 0 && (
+        <section class="mb-16">
+          <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+            <span class="text-yellow-500 mr-2">⭐</span>
+            Recursos Destacados
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredResources.map((resource) => (
+              <Card
+                title={resource.data.title}
+                description={resource.data.description}
+                href={`/resources/${resource.slug}/`}
+                tags={resource.data.tags}
+                publishDate={resource.data.publishDate}
+                category={resource.data.category}
+                author={resource.data.author}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Recursos por categoría -->
+      <section class="mb-20">
+        <h2 class="text-3xl font-bold text-slate-800 mb-10">
+          🗂️ Explorar por Categoría
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Herramientas -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🔧</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Herramientas</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Software especializado para análisis, testing y evaluación de seguridad.
+            </p>
+            <div class="text-xs text-slate-500 mb-3">
+              {resources.filter(r => r.data.category === 'herramientas').length} recursos
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Nmap</span>
+              <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Burp</span>
+              <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Wireshark</span>
+            </div>
+          </div>
+
+          <!-- Laboratorios -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🧪</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Laboratorios</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Entornos seguros para practicar técnicas sin riesgo legal.
+            </p>
+            <div class="text-xs text-slate-500 mb-3">
+              {resources.filter(r => r.data.category === 'laboratorios').length} recursos
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">VulnHub</span>
+              <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">HTB</span>
+              <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">THM</span>
+            </div>
+          </div>
+
+          <!-- Cursos -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🎓</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Cursos</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Formación estructurada desde principiante hasta avanzado.
+            </p>
+            <div class="text-xs text-slate-500 mb-3">
+              {resources.filter(r => r.data.category === 'cursos').length} recursos
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">Cybrary</span>
+              <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">SANS</span>
+              <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">Coursera</span>
+            </div>
+          </div>
+
+          <!-- Certificaciones -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🏆</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Certificaciones</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Credenciales reconocidas para validar competencias profesionales.
+            </p>
+            <div class="text-xs text-slate-500 mb-3">
+              {resources.filter(r => r.data.category === 'certificaciones').length} recursos
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">CEH</span>
+              <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">CISSP</span>
+              <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">OSCP</span>
+            </div>
+          </div>
+
+          <!-- Documentación -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">📚</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Documentación</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Referencias técnicas, frameworks y estándares de la industria.
+            </p>
+            <div class="text-xs text-slate-500 mb-3">
+              {resources.filter(r => r.data.category === 'documentacion').length} recursos
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">OWASP</span>
+              <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">NIST</span>
+              <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">CIS</span>
+            </div>
+          </div>
+
+          <!-- Comunidades -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">👥</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Comunidades</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Foros, grupos y redes profesionales para aprendizaje colaborativo.
+            </p>
+            <div class="text-xs text-slate-500 mb-3">
+              {resources.filter(r => r.data.category === 'comunidades').length} recursos
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded">Reddit</span>
+              <span class="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded">Discord</span>
+              <span class="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded">LinkedIn</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Todos los recursos -->
+      <section>
+        <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+          <span class="text-blue-500 mr-2">📋</span>
+          Todos los Recursos
+          <span class="ml-2 text-sm font-normal text-slate-500">
+            ({sortedResources.length} disponibles)
+          </span>
+        </h2>
+        
+        {sortedResources.length === 0 ? (
+          <div class="text-center py-16 bg-white rounded-lg shadow-sm border">
+            <div class="text-6xl mb-4">🔧</div>
+            <h3 class="text-xl font-semibold text-slate-700 mb-2">
+              Biblioteca en construcción
+            </h3>
+            <p class="text-slate-500 max-w-md mx-auto">
+              Estamos recopilando y verificando los mejores recursos de ciberseguridad. 
+              Pronto tendrás acceso a una biblioteca completa de herramientas y referencias.
+            </p>
+          </div>
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedResources.map((resource) => (
+              <Card
+                title={resource.data.title}
+                description={resource.data.description}
+                href={`/resources/${resource.slug}/`}
+                tags={resource.data.tags}
+                publishDate={resource.data.publishDate}
+                category={resource.data.category}
+                author={resource.data.author}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <!-- Niveles de experiencia -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold text-slate-800 mb-8">
+          📈 Recursos por Nivel
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Principiante -->
+          <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
+            <h3 class="text-lg font-semibold text-green-800 mb-3 flex items-center">
+              <span class="mr-2">🌱</span>
+              Principiante
+            </h3>
+            <p class="text-green-700 text-sm mb-4">
+              Recursos fundamentales para comenzar en ciberseguridad sin experiencia previa.
+            </p>
+            <ul class="text-green-600 text-sm space-y-1">
+              <li>• Cybrary - Cursos gratuitos</li>
+              <li>• Professor Messer - Security+</li>
+              <li>• OWASP WebGoat - Práctica web</li>
+              <li>• Nmap basics - Escaneo de red</li>
+            </ul>
+          </div>
+
+          <!-- Intermedio -->
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3 flex items-center">
+              <span class="mr-2">⚡</span>
+              Intermedio
+            </h3>
+            <p class="text-blue-700 text-sm mb-4">
+              Herramientas y plataformas para profundizar conocimientos técnicos.
+            </p>
+            <ul class="text-blue-600 text-sm space-y-1">
+              <li>• TryHackMe - Paths guiados</li>
+              <li>• Burp Suite - Testing web</li>
+              <li>• Metasploitable - Lab vulnerable</li>
+              <li>• Wireshark - Análisis de tráfico</li>
+            </ul>
+          </div>
+
+          <!-- Avanzado -->
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
+            <h3 class="text-lg font-semibold text-purple-800 mb-3 flex items-center">
+              <span class="mr-2">🚀</span>
+              Avanzado
+            </h3>
+            <p class="text-purple-700 text-sm mb-4">
+              Recursos especializados para profesionales y investigadores.
+            </p>
+            <ul class="text-purple-600 text-sm space-y-1">
+              <li>• HackTheBox - Challenges reales</li>
+              <li>• SANS Training - Cursos profesionales</li>
+              <li>• Ghidra - Ingeniería inversa</li>
+              <li>• Custom labs - Investigación propia</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Herramientas esenciales por dominio -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold text-slate-800 mb-8">
+          🎯 Herramientas Esenciales
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Web Application Security -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border">
+            <h3 class="text-lg font-semibold text-slate-800 mb-3 flex items-center">
+              <span class="mr-2">🌐</span>
+              Seguridad Web
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Burp Suite</span>
+                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Proxy/Scanner</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">OWASP ZAP</span>
+                <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">Open Source</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Nikto</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">Scanner</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm font-medium text-slate-700">SQLmap</span>
+                <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">SQLi</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network Security -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border">
+            <h3 class="text-lg font-semibold text-slate-800 mb-3 flex items-center">
+              <span class="mr-2">🔗</span>
+              Seguridad de Red
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Nmap</span>
+                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Port Scanner</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Wireshark</span>
+                <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">Análisis</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Masscan</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">Fast Scanner</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm font-medium text-slate-700">Aircrack-ng</span>
+                <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">WiFi</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Security -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border">
+            <h3 class="text-lg font-semibold text-slate-800 mb-3 flex items-center">
+              <span class="mr-2">💻</span>
+              Seguridad de Sistemas
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Metasploit</span>
+                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Framework</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">John the Ripper</span>
+                <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">Password</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Hashcat</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">GPU Crack</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm font-medium text-slate-700">Volatility</span>
+                <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">Memoria</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forensics -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border">
+            <h3 class="text-lg font-semibold text-slate-800 mb-3 flex items-center">
+              <span class="mr-2">🔍</span>
+              Análisis Forense
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Autopsy</span>
+                <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">Digital Forensics</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Sleuth Kit</span>
+                <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">File Analysis</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                <span class="text-sm font-medium text-slate-700">Binwalk</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">Firmware</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm font-medium text-slate-700">Ghidra</span>
+                <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">Reverse Eng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Llamada a la acción -->
+      <section class="mt-16 bg-gradient-to-r from-indigo-50 to-indigo-100 p-8 rounded-lg border border-indigo-200">
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-indigo-800 mb-4">
+            ¿Buscas algo específico?
+          </h2>
+          <p class="text-indigo-700 mb-6 max-w-2xl mx-auto">
+            Si no encuentras la herramienta o recurso que buscas, 
+            recuerda que la ciberseguridad es un campo en constante evolución.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="/tutorials" 
+              class="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700 transition-colors font-medium"
+            >
+              Ver Tutoriales Prácticos
+            </a>
+            <a 
+              href="/news" 
+              class="border border-indigo-600 text-indigo-600 px-6 py-3 rounded-md hover:bg-indigo-50 transition-colors font-medium"
+            >
+              Últimas Noticias
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

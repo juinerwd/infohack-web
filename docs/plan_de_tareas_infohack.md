@@ -1,14 +1,6 @@
 # Plan de tareas — Proyecto **Infohack**
 
-> Doc##- [x] Hero en home con CTA: "Soy usuario / Quiero aprender"
-- [x] Página: Protege tus datos (colección con tarjetas) — *Vista previa en homepage*
-- [x] Página: Aprende ciberseguridad (colección con tarjetas) — *Vista previa en homepage*
-- [ ] Página: Tutoriales (lista, filtros por nivel)
-- [ ] Página: Recursos (lista de enlaces categorizados)
-- [ ] Página: Noticias (blog list)
-- [ ] Página: Contacto (formulario con Formspree o Netlify Forms)
-- [x] Footer con aviso legal y enlace a responsible disclosureX mínimas
-- [x] Hero en home con CTA: "Soy usuario / Quiero aprender"ento: lista de tareas estilo *todo* para desarrollar el sitio informativo Infohack (Astro). Organizado por fases y áreas: técnico, contenido, diseño, seguridad y lanzamiento.
+> Documento: lista de tareas estilo *todo* para desarrollar el sitio informativo Infohack (Astro). Organizado por fases y áreas: técnico, contenido, diseño, seguridad y lanzamiento.
 
 ---
 
@@ -35,7 +27,7 @@
 - [x] Crear layout base (`BaseLayout.astro`) y `BlogLayout.astro`
 - [x] Componentes: NavBar, Footer, Card, PostList, Hero, Tag, SearchInput (placeholder)
 - [x] Configurar SEO básico: `<head>` dinámico, OpenGraph, Twitter Card
-- [ ] Generar sitemap.xml y RSS feed
+- [x] Generar sitemap.xml y RSS feed
 - [ ] Configurar deploy en Vercel (o Netlify) y conectar al repo
 - [ ] Añadir CI básico (GitHub Actions) para build y tests de linter
 
@@ -45,6 +37,14 @@
 - [x] Reemplazar clases personalizadas por clases nativas de Tailwind
 - [x] Configurar URLs canónicas y metadatos SEO
 - [x] Implementar página de inicio funcional con contenido de ejemplo
+
+**✅ Páginas y funcionalidades implementadas:**
+- [x] Páginas de colección: `/guides`, `/tutorials`, `/news`, `/resources`
+- [x] Páginas dinámicas individuales para cada tipo de contenido
+- [x] BlogLayout con metadatos técnicos para tutoriales (prerequisites, tools, labEnvironment)
+- [x] Sistema de RSS feed funcional con disclaimers éticos
+- [x] Sitemap automático con filtrado
+- [x] Componente Card actualizado para soportar todas las propiedades
 
 ### Contenido inicial (crear archivos Markdown)
 - [ ] Crear 3–5 artículos **Protege tus datos** (usuarios comunes):

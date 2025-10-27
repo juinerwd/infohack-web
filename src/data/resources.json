@@ -1,0 +1,48 @@
+[
+  {
+    "title": "Canal de YouTube: HackerSploit",
+    "description": "Canal educativo sobre hacking ético, pentesting y ciberseguridad.",
+    "url": "https://www.youtube.com/@HackerSploit",
+    "category": "YouTube",
+    "author": "HackerSploit",
+    "language": "en",
+    "tags": ["pentesting", "hacking ético", "linux"]
+  },
+  {
+    "title": "Canal de YouTube: Tokin Privacy",
+    "description": "Tokin Privacy es un canal dedicado a enseñar y concienciar sobre la importancia de defender la privacidad en un mundo cada vez más digital y conectado.",
+    "url": "https://www.youtube.com/@TokinPrivacy",
+    "category": "YouTube",
+    "author": "Tokin Privacy",
+    "language": "es",
+    "tags": ["principiantes", "ciberseguridad básica", "phishing"]
+  },
+  {
+    "title": "Curso gratuito de Ciberseguridad - Cisco",
+    "description": "Curso introductorio de ciberseguridad para principiantes ofrecido por Cisco Networking Academy.",
+    "url": "https://www.netacad.com/courses/cybersecurity",
+    "category": "Cursos",
+    "author": "Cisco Networking Academy",
+    "language": "es",
+    "tags": ["principiantes", "ciberseguridad básica", "redes", "noticias", "malware"]
+  },
+  {
+    "title": "OWASP",
+    "description": "Proyecto de código abierto que ofrece documentación, herramientas y guías para mejorar la seguridad de aplicaciones web.",
+    "url": "https://owasp.org",
+    "category": "Documentación",
+    "author": "OWASP Foundation",
+    "language": "en",
+    "tags": ["web", "seguridad de aplicaciones", "owasp top 10"]
+  },
+  {
+    "title": "Krebs on Security",
+    "description": "Blog de noticias de ciberseguridad con investigaciones profundas sobre ataques y vulnerabilidades.",
+    "url": "https://krebsonsecurity.com/",
+    "category": "Noticias",
+    "author": "Brian Krebs",
+    "language": "en",
+    "tags": ["malware", "phishing", "noticias"]
+  }
+]
+

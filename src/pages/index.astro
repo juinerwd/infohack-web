@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NavBar from '../components/NavBar.astro';
-import Hero from '../components/Hero.astro';
+import Header from '../sections/Header.astro';
+import Hero from '../sections/Hero.astro';
 import Card from '../components/Card.astro';
-import Footer from '../components/Footer.astro';
+import Footer from '../sections/Footer.astro';
 
 // Contenido de ejemplo para la página principal
 const featuredGuides = [
@@ -11,8 +11,8 @@ const featuredGuides = [
     title: 'Contraseñas Seguras: Guía Completa',
     description: 'Aprende a crear y gestionar contraseñas fuertes que protejan tus cuentas digitales.',
     href: '/guides/contraseñas-seguras',
-    category: 'protege-tus-datos',
-    difficulty: 'fácil' as const,
+    category: 'proteccion',
+    level: 'principiante' as const,
     estimatedTime: '10 minutos',
     publishDate: new Date('2025-01-15'),
     tags: ['contraseñas', 'autenticacion', '2fa'],
@@ -23,8 +23,8 @@ const featuredGuides = [
     title: 'Detectar Phishing: Protégete de Estafas', 
     description: 'Identifica correos y mensajes fraudulentos antes de que comprometan tu seguridad.',
     href: '/guides/detectar-phishing',
-    category: 'protege-tus-datos',
-    difficulty: 'fácil' as const,
+    category: 'proteccion',
+    level: 'principiante' as const,
     estimatedTime: '8 minutos',
     publishDate: new Date('2025-01-12'),
     tags: ['phishing', 'correo', 'whatsapp'],
@@ -35,8 +35,8 @@ const featuredGuides = [
     title: 'Seguridad en Wi-Fi Públicas',
     description: 'Navega seguro en redes públicas y protege tu información personal.',
     href: '/guides/wifi-publicas',
-    category: 'protege-tus-datos',
-    difficulty: 'fácil' as const,
+    category: 'navegacion',
+    level: 'principiante' as const,
     estimatedTime: '12 minutos',
     publishDate: new Date('2025-01-10'),
     tags: ['wifi', 'redes', 'vpn'],
@@ -74,7 +74,7 @@ const featuredTutorials = [
     title: 'OWASP Top 10 para Principiantes',
     description: 'Las vulnerabilidades web más comunes explicadas de forma simple.',
     href: '/tutorials/owasp-top-10',
-    category: 'web-security',
+    category: 'web',
     level: 'intermedio' as const,
     estimatedTime: '35 minutos',
     publishDate: new Date('2025-01-14'),
@@ -92,7 +92,7 @@ const currentPath = Astro.url.pathname;
   description="Aprende ciberseguridad de forma accesible. Guías para usuarios comunes y tutoriales éticos para principiantes. Todo el contenido es educativo y responsable."
 >
   <!-- Navegación -->
-  <NavBar currentPath={currentPath} />
+  <Header currentPath={currentPath} />
   
   <!-- Hero Section -->
   <Hero />
@@ -104,7 +104,7 @@ const currentPath = Astro.url.pathname;
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-            🛡️ Protege tus Datos
+            Protege tus Datos
           </h2>
           <p class="text-xl text-gray-600 max-w-3xl mx-auto">
             Guías simples y prácticas para que cualquier usuario pueda mejorar su seguridad digital

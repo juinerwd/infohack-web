@@ -2,6 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import Header from '../sections/Header.astro';
+import Footer from '../sections/Footer.astro';
 
 export interface Props {
   title: string;
@@ -12,10 +14,14 @@ export interface Props {
   tags?: string[];
   image?: string;
   imageAlt?: string;
+  ulrCategory?: string;
   category?: string;
   level?: string;
   estimatedTime?: string;
   ethicalDisclaimer?: boolean;
+  prerequisites?: string[];
+  tools?: string[];
+  labEnvironment?: string;
 }
 
 const {
@@ -27,10 +33,14 @@ const {
   tags = [],
   image,
   imageAlt,
+  ulrCategory,
   category,
   level,
   estimatedTime,
-  ethicalDisclaimer = false
+  ethicalDisclaimer = false,
+  prerequisites = [],
+  tools = [],
+  labEnvironment
 } = Astro.props;
 
 const formattedDate = format(publishDate, "d 'de' MMMM, yyyy", { locale: es });
@@ -46,106 +56,145 @@ const formattedUpdateDate = lastUpdate ? format(lastUpdate, "d 'de' MMMM, yyyy",
 >
   <div class="min-h-screen bg-gray-50">
     <!-- Navegación placeholder -->
-    <nav class="bg-white shadow-sm border-b">
-      <div class="container-custom py-4">
-        <a href="/" class="text-xl font-bold text-primary-950">
-          🛡️ Infohack
-        </a>
-      </div>
-    </nav>
+    <Header currentPath={Astro.url.pathname} />
 
     <!-- Header del artículo -->
     <header class="bg-white border-b">
-      <div class="container-custom py-8">
-        <!-- Breadcrumb -->
-        <nav class="flex mb-4 text-sm">
-          <a href="/" class="text-gray-500 hover:text-accent-700">Inicio</a>
-          <span class="mx-2 text-gray-400">/</span>
-          {category && (
-            <>
-              <a href={`/${category}`} class="text-gray-500 hover:text-accent-700 capitalize">{category}</a>
-              <span class="mx-2 text-gray-400">/</span>
-            </>
-          )}
-          <span class="text-gray-900">{title}</span>
-        </nav>
-
-        <!-- Disclaimer de seguridad (si aplica) -->
-        {ethicalDisclaimer && (
-          <div class="security-disclaimer mb-6">
-            <p>
-              <strong>⚠️ Contenido educativo:</strong> La información de este tutorial debe usarse únicamente en sistemas propios o con autorización explícita. El uso indebido de estas técnicas puede ser ilegal.
-            </p>
-          </div>
-        )}
-
-        <!-- Título y metadatos -->
-        <div class="max-w-4xl">
-          <h1 class="text-4xl md:text-5xl font-bold text-primary-950 mb-4 text-balance">
-            {title}
-          </h1>
-          
-          <p class="text-xl text-gray-600 mb-6 text-balance">
-            {description}
-          </p>
-          
-          <!-- Metadatos del artículo -->
-          <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
-            <div class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-              </svg>
-              <span>Publicado: {formattedDate}</span>
-            </div>
-            
-            {formattedUpdateDate && (
-              <div class="flex items-center gap-1">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Actualizado: {formattedUpdateDate}</span>
-              </div>
+      <div class="max-w-4xl mx-auto">
+        <div class="container-custom py-8">
+          <!-- Breadcrumb -->
+          <nav class="flex mb-4 text-sm">
+            <a href="/" class="text-gray-500 hover:text-accent-700">Inicio</a>
+            <span class="mx-2 text-gray-400">/</span>
+            {category && (
+              <>
+                <a href={`/${ulrCategory || category}`} class="text-gray-500 hover:text-accent-700 capitalize">{category}</a>
+                <span class="mx-2 text-gray-400">/</span>
+              </>
             )}
-            
-            <div class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-              </svg>
-              <span>Por: {author}</span>
+            <span class="text-gray-900">{title}</span>
+          </nav>
+  
+          <!-- Disclaimer de seguridad (si aplica) -->
+          {ethicalDisclaimer && (
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-6 mb-8 rounded-r-lg">
+              <div class="flex items-start">
+                <div class="text-2xl mr-3">⚠️</div>
+                <div>
+                  <p class="font-semibold text-amber-800 mb-2">Contenido Educativo</p>
+                  <p class="text-amber-700 leading-relaxed">
+                    La información de este tutorial debe usarse únicamente en sistemas propios o con autorización explícita. 
+                    El uso indebido de estas técnicas puede ser ilegal y violar códigos éticos profesionales.
+                  </p>
+                </div>
+              </div>
             </div>
+          )}
+  
+          <!-- Título y metadatos -->
+          <div class="max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-950 mb-4 text-balance">
+              {title}
+            </h1>
             
-            {estimatedTime && (
+            <p class="text-xl text-gray-600 mb-6 text-balance">
+              {description}
+            </p>
+            
+            <!-- Metadatos del artículo -->
+            <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
               <div class="flex items-center gap-1">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                 </svg>
-                <span>Tiempo estimado: {estimatedTime}</span>
+                <span>Publicado: {formattedDate}</span>
+              </div>
+              
+              {formattedUpdateDate && (
+                <div class="flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Actualizado: {formattedUpdateDate}</span>
+                </div>
+              )}
+              
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Por: {author}</span>
+              </div>
+              
+              {estimatedTime && (
+                <div class="flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Tiempo estimado: {estimatedTime}</span>
+                </div>
+              )}
+            </div>
+            
+            <!-- Tags y nivel -->
+            {(tags.length > 0 || level) && (
+              <div class="flex flex-wrap gap-2 mb-6">
+                {level && (
+                  <span class={`tag ${level === 'principiante' ? 'tag-level-beginner' : level === 'intermedio' ? 'tag-level-intermediate' : 'tag-level-advanced'}`}>
+                    {level}
+                  </span>
+                )}
+                {tags.map(tag => (
+                  <span class="tag tag-primary">#{tag}</span>
+                ))}
+              </div>
+            )}
+  
+            <!-- Metadatos técnicos adicionales para tutoriales -->
+            {(prerequisites.length > 0 || tools.length > 0 || labEnvironment) && (
+              <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-semibold text-slate-800 mb-4">📋 Información Técnica</h3>
+                
+                {prerequisites.length > 0 && (
+                  <div class="mb-4">
+                    <h4 class="font-medium text-slate-700 mb-2">✅ Prerequisitos:</h4>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                      {prerequisites.map(prereq => (
+                        <li>{prereq}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+  
+                {tools.length > 0 && (
+                  <div class="mb-4">
+                    <h4 class="font-medium text-slate-700 mb-2">🔧 Herramientas necesarias:</h4>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                      {tools.map(tool => (
+                        <li>{tool}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+  
+                {labEnvironment && (
+                  <div>
+                    <h4 class="font-medium text-slate-700 mb-2">🧪 Entorno de laboratorio:</h4>
+                    <p class="text-sm text-slate-600">{labEnvironment}</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
-          
-          <!-- Tags y nivel -->
-          {(tags.length > 0 || level) && (
-            <div class="flex flex-wrap gap-2 mb-6">
-              {level && (
-                <span class={`tag ${level === 'principiante' ? 'tag-level-beginner' : level === 'intermedio' ? 'tag-level-intermediate' : 'tag-level-advanced'}`}>
-                  {level}
-                </span>
-              )}
-              {tags.map(tag => (
-                <span class="tag tag-primary">#{tag}</span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </header>
 
     <!-- Contenido del artículo -->
     <main>
-      <article class="container-custom py-8">
+      <article class="container-custom py-12">
         <div class="max-w-4xl mx-auto">
-          <div class="prose prose-lg max-w-none">
+          <div class="markdown-content">
             <slot />
           </div>
         </div>
@@ -153,23 +202,58 @@ const formattedUpdateDate = lastUpdate ? format(lastUpdate, "d 'de' MMMM, yyyy",
     </main>
 
     <!-- Footer placeholder -->
-    <footer class="bg-primary-950 text-white py-8 mt-16">
-      <div class="container-custom">
-        <div class="text-center">
-          <p class="text-gray-300">
-            © 2025 Infohack. Contenido educativo sobre ciberseguridad.
-          </p>
-          <p class="text-sm text-gray-400 mt-2">
-            <a href="/responsible-disclosure" class="hover:text-white transition-colors">
-              Responsible Disclosure
-            </a>
-            {' · '}
-            <a href="/aviso-legal" class="hover:text-white transition-colors">
-              Aviso Legal
-            </a>
-          </p>
-        </div>
-      </div>
-    </footer>
+    <Footer />
   </div>
+
+  <style>
+    /* Estilos para tags y badges */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.375rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .tag-primary {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .tag-level-beginner {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .tag-level-intermediate {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .tag-level-advanced {
+      background-color: #fee2e2;
+      color: #dc2626;
+    }
+
+    /* Espaciado mejorado para el contenedor principal */
+    .container-custom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .container-custom {
+        padding: 0 1.5rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding: 0 2rem;
+      }
+    }
+  </style>
 </BaseLayout>

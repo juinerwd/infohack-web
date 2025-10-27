@@ -1,0 +1,15 @@
+---
+// Redireccionar a páginas específicas de guías
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'contraseñas-seguras' } },
+    { params: { slug: 'detectar-phishing' } },
+    { params: { slug: 'configurar-2fa' } },
+    // Añadir más rutas según creemos las guías
+  ];
+}
+
+const { slug } = Astro.params;
+
+// Redireccionar a la página específica de la guía
+return Astro.redirect(`/guides/${slug}`);

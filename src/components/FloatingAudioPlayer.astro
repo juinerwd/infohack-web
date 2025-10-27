@@ -1,0 +1,338 @@
+---
+export interface Props {
+  audioSrc: string;
+  title?: string;
+  autoplay?: boolean;
+  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+}
+
+const { 
+  audioSrc, 
+  title = "Audio de la guía", 
+  autoplay = false,
+  position = 'bottom-right' 
+} = Astro.props;
+
+const positionClasses = {
+  'bottom-right': 'bottom-6 right-6',
+  'bottom-left': 'bottom-6 left-6',
+  'top-right': 'top-6 right-6',
+  'top-left': 'top-6 left-6'
+};
+---
+
+<div 
+  id="floating-audio-player" 
+  class={`fixed ${positionClasses[position]} z-50 transition-all duration-300 ease-in-out opacity-0 transform translate-y-full`}
+>
+  <!-- Audio element (hidden) -->
+  <audio 
+    id="guide-audio"
+    src={audioSrc}
+    preload="auto"
+    autoplay={autoplay}
+    class="hidden"
+  ></audio>
+
+  <!-- Floating player controls -->
+  <div class="bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-gray-200 p-3 flex items-center space-x-3 min-w-[200px]">
+    
+    <!-- Play/Pause button -->
+    <button 
+      id="play-pause-btn"
+      class="flex-shrink-0 w-12 h-12 bg-green-600 hover:bg-green-700 rounded-full flex items-center justify-center text-white transition-colors shadow-md hover:shadow-lg group"
+      title="Reproducir/Pausar"
+    >
+      <!-- Play icon -->
+      <svg 
+        id="play-icon" 
+        class="w-5 h-5 ml-0.5 transition-opacity duration-200" 
+        fill="currentColor" 
+        viewBox="0 0 24 24"
+      >
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      
+      <!-- Pause icon -->
+      <svg 
+        id="pause-icon" 
+        class="w-5 h-5 hidden transition-opacity duration-200" 
+        fill="currentColor" 
+        viewBox="0 0 24 24"
+      >
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+      
+      <!-- Loading spinner -->
+      <svg 
+        id="loading-icon" 
+        class="w-5 h-5 hidden animate-spin" 
+        fill="none" 
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </button>
+
+    <!-- Audio info and progress -->
+    <div class="flex-1 min-w-0">
+      <div class="text-sm font-medium text-gray-900 truncate">
+        {title}
+      </div>
+      
+      <!-- Progress bar -->
+      <div class="mt-1 flex items-center space-x-2">
+        <span id="current-time" class="text-xs text-gray-500">0:00</span>
+        <div class="flex-1 bg-gray-200 rounded-full h-1.5 cursor-pointer" id="progress-container">
+          <div id="progress-bar" class="bg-green-600 h-1.5 rounded-full transition-all duration-100" style="width: 0%"></div>
+        </div>
+        <span id="total-time" class="text-xs text-gray-500">0:00</span>
+      </div>
+    </div>
+
+    <!-- Volume control -->
+    <div class="flex items-center space-x-2">
+      <button 
+        id="volume-btn"
+        class="text-gray-500 hover:text-gray-700 transition-colors"
+        title="Volumen"
+      >
+        <svg id="volume-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Close button -->
+    <button 
+      id="close-player-btn"
+      class="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+      title="Cerrar reproductor"
+    >
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Audio waves animation -->
+  <div id="audio-waves" class="absolute -top-2 left-1/2 transform -translate-x-1/2 flex space-x-1 opacity-0 transition-opacity duration-300">
+    <div class="w-1 bg-green-500 rounded-full animate-pulse" style="height: 15px; animation-delay: 0s"></div>
+    <div class="w-1 bg-green-500 rounded-full animate-pulse" style="height: 25px; animation-delay: 0.1s"></div>
+    <div class="w-1 bg-green-500 rounded-full animate-pulse" style="height: 20px; animation-delay: 0.2s"></div>
+    <div class="w-1 bg-green-500 rounded-full animate-pulse" style="height: 30px; animation-delay: 0.3s"></div>
+    <div class="w-1 bg-green-500 rounded-full animate-pulse" style="height: 18px; animation-delay: 0.4s"></div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    const player = document.getElementById('floating-audio-player');
+    const audio = document.getElementById('guide-audio');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const loadingIcon = document.getElementById('loading-icon');
+    const currentTimeSpan = document.getElementById('current-time');
+    const totalTimeSpan = document.getElementById('total-time');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
+    const closeBtn = document.getElementById('close-player-btn');
+    const volumeBtn = document.getElementById('volume-btn');
+    const audioWaves = document.getElementById('audio-waves');
+
+    if (!player || !audio) return;
+
+    let isPlaying = false;
+    let isDragging = false;
+
+    // Show player after page load
+    setTimeout(function() {
+      player.classList.remove('opacity-0', 'translate-y-full');
+      player.classList.add('opacity-100', 'translate-y-0');
+    }, 1000);
+
+    // Format time
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }
+
+    // Update progress
+    function updateProgress() {
+      if (!isDragging && audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        if (progressBar) progressBar.style.width = progress + '%';
+        if (currentTimeSpan) currentTimeSpan.textContent = formatTime(audio.currentTime);
+      }
+    }
+
+    // Update UI state
+    function updatePlayState(playing) {
+      isPlaying = playing;
+      
+      if (playing) {
+        if (playIcon) playIcon.classList.add('hidden');
+        if (pauseIcon) pauseIcon.classList.remove('hidden');
+        if (audioWaves) audioWaves.classList.remove('opacity-0');
+      } else {
+        if (playIcon) playIcon.classList.remove('hidden');
+        if (pauseIcon) pauseIcon.classList.add('hidden');
+        if (audioWaves) audioWaves.classList.add('opacity-0');
+      }
+      
+      if (loadingIcon) loadingIcon.classList.add('hidden');
+    }
+
+    // Audio event listeners
+    audio.addEventListener('loadedmetadata', function() {
+      if (totalTimeSpan) totalTimeSpan.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', updateProgress);
+
+    audio.addEventListener('play', function() {
+      updatePlayState(true);
+    });
+    
+    audio.addEventListener('pause', function() {
+      updatePlayState(false);
+    });
+
+    audio.addEventListener('loadstart', function() {
+      if (loadingIcon) loadingIcon.classList.remove('hidden');
+      if (playIcon) playIcon.classList.add('hidden');
+      if (pauseIcon) pauseIcon.classList.add('hidden');
+    });
+
+    audio.addEventListener('canplay', function() {
+      if (loadingIcon) loadingIcon.classList.add('hidden');
+      updatePlayState(isPlaying);
+    });
+
+    audio.addEventListener('ended', function() {
+      updatePlayState(false);
+      if (progressBar) progressBar.style.width = '0%';
+      if (currentTimeSpan) currentTimeSpan.textContent = '0:00';
+    });
+
+    // Play/Pause button
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(console.error);
+        } else {
+          audio.pause();
+        }
+      });
+    }
+
+    // Progress bar interaction
+    if (progressContainer) {
+      progressContainer.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        updateProgressFromEvent(e);
+      });
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      if (isDragging) {
+        updateProgressFromEvent(e);
+      }
+    });
+
+    document.addEventListener('mouseup', function() {
+      isDragging = false;
+    });
+
+    function updateProgressFromEvent(e) {
+      if (!progressContainer) return;
+      const rect = progressContainer.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const progress = Math.max(0, Math.min(1, clickX / rect.width));
+      
+      if (audio.duration) {
+        audio.currentTime = progress * audio.duration;
+        if (progressBar) progressBar.style.width = (progress * 100) + '%';
+        if (currentTimeSpan) currentTimeSpan.textContent = formatTime(audio.currentTime);
+      }
+    }
+
+    // Volume control
+    let isMuted = false;
+    if (volumeBtn) {
+      volumeBtn.addEventListener('click', function() {
+        isMuted = !isMuted;
+        audio.muted = isMuted;
+        
+        const volumeIcon = document.getElementById('volume-icon');
+        if (volumeIcon) {
+          if (isMuted) {
+            volumeIcon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+          } else {
+            volumeIcon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+          }
+        }
+      });
+    }
+
+    // Close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        audio.pause();
+        player.classList.add('opacity-0', 'translate-y-full');
+        setTimeout(function() {
+          player.style.display = 'none';
+        }, 300);
+      });
+    }
+
+    // Auto-hide on scroll
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+      player.classList.add('opacity-75');
+      
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        player.classList.remove('opacity-75');
+      }, 2000);
+    });
+  });
+</script>
+
+<style>
+  /* Custom scrollbar for progress */
+  #progress-container {
+    cursor: pointer;
+  }
+  
+  #progress-container:hover #progress-bar {
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+  }
+  
+  /* Audio waves animation */
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.5); }
+  }
+  
+  #audio-waves > div {
+    animation: wave 1.5s ease-in-out infinite;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    #floating-audio-player {
+      left: 1rem !important;
+      right: 1rem !important;
+      bottom: 1rem !important;
+    }
+    
+    #floating-audio-player > div {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+</style>

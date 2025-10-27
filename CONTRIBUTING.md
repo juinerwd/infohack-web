@@ -203,7 +203,6 @@ src/content/
 - **Issues**: Para reportar bugs o proponer nuevas funcionalidades
 - **Discussions**: Para preguntas generales y brainstorming
 - **Pull Requests**: Para contribuciones de código/contenido
-- **Email**: security@infohack.dev para temas de seguridad
 
 ## 🏆 Reconocimiento
 

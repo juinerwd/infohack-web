@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const resources = await getCollection('resources');
+  
+  return resources.map((resource) => ({
+    params: { slug: resource.slug },
+    props: { resource },
+  }));
+};
+
+const { resource } = Astro.props as { resource: any };
+const { Content } = await resource.render();
+---
+
+<BlogLayout
+  title={resource.data.title}
+  description={resource.data.description}
+  publishDate={resource.data.publishDate}
+  author={resource.data.author}
+  tags={resource.data.tags}
+  category={resource.data.category}
+  ethicalDisclaimer={resource.data.ethicalDisclaimer}
+>
+  <Content />
+</BlogLayout>

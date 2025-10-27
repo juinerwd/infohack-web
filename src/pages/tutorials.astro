@@ -1,0 +1,295 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../sections/Header.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const currentPath = Astro.url.pathname;
+
+const tutorials = await getCollection('tutorials');
+const sortedTutorials = tutorials.sort((a, b) => 
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+const featuredTutorials = sortedTutorials.filter(tutorial => tutorial.data.featured);
+const regularTutorials = sortedTutorials.filter(tutorial => !tutorial.data.featured);
+---
+
+<BaseLayout 
+  title="Aprende Ciberseguridad - Tutoriales Técnicos" 
+  description="Tutoriales técnicos para aprender conceptos de ciberseguridad, hacking ético y análisis de vulnerabilidades con enfoque educativo."
+>
+  <Header currentPath={currentPath} />
+  <main class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-8">
+    <div class="container mx-auto px-4">
+      <!-- Encabezado -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          🎓 Aprende Ciberseguridad
+        </h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          Tutoriales técnicos para estudiantes y profesionales interesados en ciberseguridad. 
+          Conceptos fundamentales, metodologías y herramientas explicadas de forma ética y educativa.
+        </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500">
+          <span class="bg-white px-3 py-1 rounded-full border">🎯 Enfoque educativo</span>
+          <span class="bg-white px-3 py-1 rounded-full border">⚖️ Siempre legal</span>
+          <span class="bg-white px-3 py-1 rounded-full border">🔬 Laboratorios seguros</span>
+        </div>
+        
+        <!-- Advertencia ética -->
+        <div class="mt-8 max-w-4xl mx-auto bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+          <div class="flex items-start space-x-3">
+            <div class="text-yellow-600 text-xl">⚠️</div>
+            <div class="text-left">
+              <h3 class="font-semibold text-yellow-800 mb-2">
+                Compromiso Ético y Legal
+              </h3>
+              <p class="text-yellow-700 text-sm leading-relaxed">
+                Todos nuestros tutoriales están diseñados exclusivamente para <strong>educación</strong> y <strong>defensa</strong>. 
+                El uso de técnicas de ciberseguridad debe ser siempre <strong>autorizado</strong>, <strong>legal</strong> y con fines <strong>constructivos</strong>. 
+                No nos hacemos responsables del mal uso de la información proporcionada.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tutoriales destacados -->
+      {featuredTutorials.length > 0 && (
+        <section class="mb-16">
+          <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+            <span class="text-yellow-500 mr-2">⭐</span>
+            Tutoriales Destacados
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredTutorials.map((tutorial) => (
+              <Card
+                title={tutorial.data.title}
+                description={tutorial.data.description}
+                href={`/tutorials/${tutorial.slug}/`}
+                tags={tutorial.data.tags}
+                level={tutorial.data.level}
+                estimatedTime={tutorial.data.estimatedTime}
+                publishDate={tutorial.data.publishDate}
+                category={tutorial.data.category}
+                labEnvironment={tutorial.data.labEnvironment}
+                prerequisites={tutorial.data.prerequisites}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Todos los tutoriales -->
+      <section>
+        <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+          <span class="text-blue-500 mr-2">📖</span>
+          Todos los Tutoriales
+          <span class="ml-2 text-sm font-normal text-slate-500">
+            ({sortedTutorials.length} disponibles)
+          </span>
+        </h2>
+        
+        {sortedTutorials.length === 0 ? (
+          <div class="text-center py-16 bg-white rounded-lg shadow-sm border">
+            <div class="text-6xl mb-4">🔬</div>
+            <h3 class="text-xl font-semibold text-slate-700 mb-2">
+              Laboratorio en construcción
+            </h3>
+            <p class="text-slate-500 max-w-md mx-auto">
+              Estamos preparando tutoriales técnicos de alta calidad con laboratorios seguros. 
+              Vuelve pronto para aprender ciberseguridad de forma práctica y ética.
+            </p>
+          </div>
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedTutorials.map((tutorial) => (
+              <Card
+                title={tutorial.data.title}
+                description={tutorial.data.description}
+                href={`/tutorials/${tutorial.slug}/`}
+                tags={tutorial.data.tags}
+                level={tutorial.data.level}
+                estimatedTime={tutorial.data.estimatedTime}
+                publishDate={tutorial.data.publishDate}
+                category={tutorial.data.category}
+                labEnvironment={tutorial.data.labEnvironment}
+                prerequisites={tutorial.data.prerequisites}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <!-- Niveles de dificultad -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold text-slate-800 mb-8">
+          📊 Explorar por Nivel
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Principiante -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🌱</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Principiante</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Conceptos básicos, metodologías fundamentales y primeros pasos en ciberseguridad.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.level === 'principiante').length} tutoriales
+            </div>
+          </div>
+
+          <!-- Intermedio -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">⚡</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Intermedio</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Técnicas específicas, herramientas especializadas y análisis más profundos.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.level === 'intermedio').length} tutoriales
+            </div>
+          </div>
+
+          <!-- Avanzado -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🚀</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Avanzado</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Investigación, desarrollo de exploits y análisis forense especializado.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.level === 'avanzado').length} tutoriales
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Categorías técnicas -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold text-slate-800 mb-8">
+          🔧 Explorar por Categoría
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- General -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">📚</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Conceptos Generales</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Fundamentos, metodologías y principios éticos de la ciberseguridad.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.category === 'general').length} tutoriales
+            </div>
+          </div>
+
+          <!-- Web -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🌐</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Seguridad Web</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              OWASP Top 10, aplicaciones web, APIs y servicios online.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.category === 'web').length} tutoriales
+            </div>
+          </div>
+
+          <!-- Network -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">🔗</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Redes</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Protocolos, infraestructura, análisis de tráfico y pentesting de redes.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.category === 'network').length} tutoriales
+            </div>
+          </div>
+
+          <!-- System -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-3">💻</div>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Sistemas</h3>
+            <p class="text-slate-600 text-sm mb-4">
+              Linux, Windows, escalada de privilegios y análisis forense.
+            </p>
+            <div class="text-xs text-slate-500">
+              {tutorials.filter(t => t.data.category === 'system').length} tutoriales
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recursos adicionales -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold text-slate-800 mb-8">
+          🛠️ Recursos y Laboratorios
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Laboratorios virtuales -->
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3 flex items-center">
+              <span class="mr-2">🖥️</span>
+              Laboratorios Virtuales Seguros
+            </h3>
+            <p class="text-blue-700 text-sm mb-4">
+              Entornos controlados para practicar técnicas sin riesgo legal o ético.
+            </p>
+            <ul class="text-blue-600 text-sm space-y-1">
+              <li>• VulnHub - Máquinas virtuales vulnerables</li>
+              <li>• HackTheBox - Plataforma de pentesting</li>
+              <li>• TryHackMe - Aprendizaje gamificado</li>
+              <li>• DVWA - Aplicación web vulnerable</li>
+            </ul>
+          </div>
+
+          <!-- Herramientas éticas -->
+          <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
+            <h3 class="text-lg font-semibold text-green-800 mb-3 flex items-center">
+              <span class="mr-2">🔧</span>
+              Herramientas Educativas
+            </h3>
+            <p class="text-green-700 text-sm mb-4">
+              Software y recursos para aprendizaje autorizado y ético.
+            </p>
+            <ul class="text-green-600 text-sm space-y-1">
+              <li>• Kali Linux - Distribución de pentesting</li>
+              <li>• Burp Suite - Análisis de aplicaciones web</li>
+              <li>• Wireshark - Análisis de protocolos</li>
+              <li>• Nmap - Escaneo de redes</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Llamada a la acción -->
+      <section class="mt-16 bg-gradient-to-r from-purple-50 to-purple-100 p-8 rounded-lg border border-purple-200">
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-purple-800 mb-4">
+            ¿Listo para comenzar tu carrera en ciberseguridad?
+          </h2>
+          <p class="text-purple-700 mb-6 max-w-2xl mx-auto">
+            La ciberseguridad es un campo en constante evolución. 
+            Comienza con los fundamentos y avanza gradualmente hacia especializaciones técnicas.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a 
+              href="/guides" 
+              class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700 transition-colors font-medium"
+            >
+              Comenzar con lo Básico
+            </a>
+            <a 
+              href="/resources" 
+              class="border border-purple-600 text-purple-600 px-6 py-3 rounded-md hover:bg-purple-50 transition-colors font-medium"
+            >
+              Ver Más Recursos
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

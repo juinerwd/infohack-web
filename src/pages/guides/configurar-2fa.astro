@@ -1,0 +1,291 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import ChecklistBox from '../../components/content/ChecklistBox.astro';
+import WarningAlert from '../../components/content/WarningAlert.astro';
+import StepByStep from '../../components/content/StepByStep.astro';
+import TipCard from '../../components/content/TipCard.astro';
+import CallToAction from '../../components/content/CallToAction.astro';
+
+const pageData = {
+  title: "Cómo Configurar Autenticación en Dos Pasos (2FA): Guía Completa",
+  description: "Aprende paso a paso cómo configurar la autenticación en dos pasos (2FA) en tus cuentas más importantes para aumentar significativamente tu seguridad digital.",
+  publishDate: new Date("2025-01-13"),
+  author: "Equipo Infohack",
+  tags: ["2fa", "seguridad", "autenticacion", "proteccion", "cuentas"],
+  category: "proteccion",
+  level: "principiante",
+  estimatedTime: "20 minutos",
+  ethicalDisclaimer: false,
+  prerequisites: ["Tener un smartphone o tablet", "Acceso a tus cuentas principales"],
+  tools: ["Aplicación 2FA", "Backup de códigos de recuperación"]
+};
+
+const mejoresApps2FA = [
+  "Google Authenticator - Gratuita y confiable",
+  "Microsoft Authenticator - Excelente para ecosistema Microsoft",
+  "Authy - Con respaldo en la nube encriptado",
+  "Bitwarden Authenticator - Integrada con el gestor de contraseñas",
+  "1Password - Para usuarios premium con funciones avanzadas"
+];
+
+const cuentasPrioritarias = [
+  "Email principal (Gmail, Outlook, Yahoo)",
+  "Redes sociales (Facebook, Instagram, Twitter, LinkedIn)",
+  "Servicios bancarios y financieros",
+  "Tiendas online (Amazon, PayPal, eBay)",
+  "Servicios de trabajo (Slack, Microsoft 365, Google Workspace)",
+  "Almacenamiento en la nube (Google Drive, Dropbox, OneDrive)"
+];
+
+const pasosConfiguracion = [
+  {
+    title: "Instala una aplicación de autenticación",
+    description: "Descarga e instala una aplicación 2FA confiable en tu smartphone. Recomendamos Google Authenticator o Microsoft Authenticator por su simplicidad y seguridad.",
+    tip: "Evita usar SMS como método 2FA siempre que sea posible, ya que es vulnerable a ataques de SIM swapping."
+  },
+  {
+    title: "Accede a la configuración de seguridad",
+    description: "Ve a la configuración de tu cuenta y busca la sección 'Seguridad', 'Privacidad' o 'Autenticación en dos pasos'. Cada servicio lo organiza de manera diferente.",
+    tip: "Muchos servicios también ofrecen esta opción cuando inicias sesión desde un dispositivo nuevo."
+  },
+  {
+    title: "Activa la autenticación en dos pasos",
+    description: "Selecciona la opción de activar 2FA y elige 'Aplicación de autenticación' como método preferido. Te mostrará un código QR para escanear.",
+    tip: "Si no puedes escanear el QR, la mayoría de servicios ofrecen una clave manual que puedes copiar."
+  },
+  {
+    title: "Escanea el código QR",
+    description: "Abre tu aplicación 2FA y usa la función 'Agregar cuenta' o '+' para escanear el código QR que aparece en la pantalla del servicio.",
+    tip: "Mantén el código QR en pantalla hasta completar todo el proceso de configuración."
+  },
+  {
+    title: "Verifica que funciona",
+    description: "Introduce el código de 6 dígitos que aparece en tu aplicación 2FA para confirmar que está configurado correctamente.",
+    tip: "Los códigos cambian cada 30 segundos, así que asegúrate de usar el código actual."
+  },
+  {
+    title: "Guarda los códigos de recuperación",
+    description: "Descarga y guarda en lugar seguro los códigos de backup que te proporciona el servicio. Los necesitarás si pierdes acceso a tu teléfono.",
+    tip: "Imprime estos códigos y guárdalos físicamente, o almacénalos en tu gestor de contraseñas."
+  }
+];
+---
+<BlogLayout {...pageData}>
+  <div class="guide-content max-w-4xl mx-auto">
+    
+    <!-- Introducción -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">¿Qué es la autenticación en dos pasos (2FA)?</h2>
+      
+      <div class="prose prose-lg mb-8">
+        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+          La autenticación en dos pasos (2FA) añade una capa extra de seguridad a tus cuentas. 
+          Incluso si alguien obtiene tu contraseña, necesitará también acceso a tu teléfono 
+          o aplicación 2FA para poder iniciar sesión.
+        </p>
+        
+        <p class="text-lg text-gray-700 leading-relaxed">
+          Es como tener dos cerraduras en tu puerta: una contraseña que sabes y un código 
+          que solo tu teléfono puede generar. Esta simple medida puede prevenir el 99.9% 
+          de los ataques automatizados según estudios de Microsoft.
+        </p>
+      </div>
+
+      <WarningAlert type="success" title="¡Dato impactante!">
+        Según Microsoft, activar 2FA bloquea el <strong>99.9% de los intentos de acceso no autorizado</strong>, 
+        incluso cuando el atacante conoce tu contraseña.
+      </WarningAlert>
+    </section>
+
+    <!-- Por qué es importante -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">¿Por qué necesitas 2FA ahora mismo?</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <TipCard title="Sin 2FA" icon="❌" variant="yellow">
+          <ul class="text-sm space-y-2">
+            <li>• Solo tu contraseña protege la cuenta</li>
+            <li>• Vulnerable a filtraciónes de datos</li>
+            <li>• Ataques de fuerza bruta efectivos</li>
+            <li>• Phishing puede comprometer todo</li>
+          </ul>
+        </TipCard>
+
+        <TipCard title="Con 2FA" icon="✅" variant="green">
+          <ul class="text-sm space-y-2">
+            <li>• Doble protección: contraseña + código</li>
+            <li>• Resistente a filtraciones de datos</li>
+            <li>• Bloquea ataques automatizados</li>
+            <li>• Phishing necesita también tu teléfono</li>
+          </ul>
+        </TipCard>
+      </div>
+    </section>
+
+    <!-- Mejores aplicaciones 2FA -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">Las mejores aplicaciones 2FA</h2>
+      
+      <ChecklistBox 
+        title="Aplicaciones recomendadas"
+        items={mejoresApps2FA}
+        variant="info"
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <TipCard title="Google Authenticator" icon="📱" variant="blue">
+          <p class="mb-2"><strong>✅ Pros:</strong> Simple, confiable, sin cuenta necesaria</p>
+          <p class="mb-2"><strong>❌ Contras:</strong> No hay respaldo automático</p>
+          <p class="text-sm text-gray-600">Perfecto para principiantes</p>
+        </TipCard>
+
+        <TipCard title="Authy" icon="🔒" variant="purple">
+          <p class="mb-2"><strong>✅ Pros:</strong> Respaldo en la nube, múltiples dispositivos</p>
+          <p class="mb-2"><strong>❌ Contras:</strong> Requiere cuenta y número de teléfono</p>
+          <p class="text-sm text-gray-600">Ideal para usuarios avanzados</p>
+        </TipCard>
+      </div>
+    </section>
+
+    <!-- Cuentas prioritarias para 2FA -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">¿En qué cuentas activar 2FA primero?</h2>
+      
+      <ChecklistBox 
+        title="Cuentas de máxima prioridad"
+        items={cuentasPrioritarias}
+        variant="warning"
+      />
+
+      <WarningAlert type="info" title="Consejo de priorización">
+        Empieza por tu <strong>email principal</strong> y <strong>servicios bancarios</strong>. 
+        Si alguien accede a tu email, puede resetear las contraseñas de todas tus otras cuentas.
+      </WarningAlert>
+    </section>
+
+    <!-- Pasos de configuración -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">Configuración paso a paso</h2>
+      
+      <StepByStep steps={pasosConfiguracion} />
+    </section>
+
+    <!-- Configuración específica por servicio -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">Rutas específicas por servicio</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <TipCard title="Gmail" icon="✉️" variant="blue">
+          <p class="text-sm mb-2"><strong>Ruta:</strong></p>
+          <p class="text-xs text-gray-600 mb-3">Google Account → Security → 2-Step Verification</p>
+          <a href="https://myaccount.google.com/security" target="_blank" class="text-blue-600 hover:text-blue-800 text-xs font-medium">
+            → Ir a configuración
+          </a>
+        </TipCard>
+
+        <TipCard title="Facebook" icon="👥" variant="blue">
+          <p class="text-sm mb-2"><strong>Ruta:</strong></p>
+          <p class="text-xs text-gray-600 mb-3">Settings → Security → Two-factor authentication</p>
+          <a href="https://www.facebook.com/settings?tab=security" target="_blank" class="text-blue-600 hover:text-blue-800 text-xs font-medium">
+            → Ir a configuración
+          </a>
+        </TipCard>
+
+        <TipCard title="Instagram" icon="📸" variant="purple">
+          <p class="text-sm mb-2"><strong>Ruta:</strong></p>
+          <p class="text-xs text-gray-600 mb-3">Profile → Menu → Settings → Security → Two-Factor Authentication</p>
+          <p class="text-xs text-gray-500">Desde la app móvil</p>
+        </TipCard>
+      </div>
+    </section>
+
+    <!-- Códigos de recuperación -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">⚠️ Códigos de recuperación: ¡Críticos!</h2>
+      
+      <WarningAlert type="danger" title="¡Muy importante!">
+        Los códigos de recuperación son tu <strong>única salvación</strong> si pierdes o cambias tu teléfono. 
+        Sin ellos, podrías perder acceso permanente a tus cuentas.
+      </WarningAlert>
+
+      <div class="mt-6">
+        <ChecklistBox 
+          title="Cómo manejar códigos de recuperación"
+          items={[
+            "Descárgalos inmediatamente después de activar 2FA",
+            "Guárdalos en tu gestor de contraseñas",
+            "Imprime una copia física y guárdala en lugar seguro",
+            "NO los tomes foto ni los guardes en texto plano",
+            "Genera códigos nuevos si crees que fueron comprometidos",
+            "Usa un código solo cuando sea absolutamente necesario"
+          ]}
+          variant="warning"
+        />
+      </div>
+    </section>
+
+    <!-- Qué hacer si pierdes tu teléfono -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">🚨 ¿Perdiste tu teléfono?</h2>
+      
+      <StepByStep 
+        steps={[
+          {
+            title: "No entres en pánico",
+            description: "Respira profundo. Si configuraste todo correctamente, tienes varias opciones de recuperación."
+          },
+          {
+            title: "Usa códigos de recuperación",
+            description: "Usa uno de los códigos de backup que guardaste. Cada código solo se puede usar una vez.",
+            tip: "Si no tienes códigos, contacta al soporte del servicio inmediatamente."
+          },
+          {
+            title: "Reconfigura 2FA en tu nuevo dispositivo",
+            description: "Una vez que recuperes acceso, elimina la configuración anterior y configura 2FA nuevamente en tu nuevo teléfono."
+          },
+          {
+            title: "Genera nuevos códigos de recuperación",
+            description: "Después de reconfigurar, genera nuevos códigos de backup y guárdalos de forma segura."
+          }
+        ]}
+      />
+    </section>
+
+    <!-- Llamada a la acción -->
+    <CallToAction 
+      title="¡Activa 2FA en tus cuentas importantes HOY!"
+      description="No esperes a ser víctima de un hackeo. La autenticación en dos pasos es tu mejor defensa contra el 99.9% de los ataques. Toma 20 minutos que pueden salvarte años de problemas."
+      variant="success"
+    >
+      <div slot="buttons" class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/guides/contraseñas-seguras"
+          class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg"
+        >
+          ← Contraseñas Seguras
+        </a>
+        <a 
+          href="/guides/detectar-phishing"
+          class="border-2 border-green-600 text-green-600 hover:bg-green-50 px-6 py-3 rounded-lg font-medium transition-colors"
+        >
+          Detectar Phishing →
+        </a>
+      </div>
+    </CallToAction>
+
+  </div>
+</BlogLayout>
+
+<style>
+  .guide-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  
+  .prose {
+    max-width: none;
+  }
+  
+  .prose p {
+    margin-bottom: 1.5rem;
+  }
+</style>

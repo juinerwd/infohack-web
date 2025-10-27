@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FloatingAudioPlayer from '../components/FloatingAudioPlayer.astro';
+import Header from '../sections/Header.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const currentPath = Astro.url.pathname;
+
+const guides = await getCollection('guides');
+const sortedGuides = guides.sort((a, b) => 
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+const featuredGuides = sortedGuides.filter(guide => guide.data.featured);
+const regularGuides = sortedGuides.filter(guide => !guide.data.featured);
+---
+
+<BaseLayout 
+  title="Protege tus Datos - Guías de Seguridad Personal" 
+  description="Guías prácticas para proteger tu información personal, configurar herramientas de seguridad y navegar de forma segura en internet."
+>
+  <Header currentPath={currentPath} />
+  <main class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-12">
+    <div class="container mx-auto px-4 max-w-7xl">
+      <!-- Encabezado -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
+          🛡️ Protege tus Datos
+        </h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
+          Guías prácticas y paso a paso para usuarios comunes. Aprende a proteger tu información personal, 
+          configurar herramientas de seguridad y navegar de forma segura en el mundo digital.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 text-sm text-slate-500">
+          <span class="bg-white px-4 py-2 rounded-full border shadow-sm">✅ Sin jerga técnica</span>
+          <span class="bg-white px-4 py-2 rounded-full border shadow-sm">⚡ Aplicación inmediata</span>
+          <span class="bg-white px-4 py-2 rounded-full border shadow-sm">🔒 Uso ético solamente</span>
+        </div>
+      </div>
+
+      <!-- Guías destacadas -->
+      {featuredGuides.length > 0 && (
+        <section class="mb-20">
+          <h2 class="text-3xl font-bold text-slate-800 mb-10 flex items-center">
+            <span class="text-yellow-500 mr-3">⭐</span>
+            Guías Destacadas
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredGuides.map((guide) => (
+              <Card
+                title={guide.data.title}
+                description={guide.data.description}
+                href={`/guides/${guide.slug}/`}
+                tags={guide.data.tags}
+                level={guide.data.level}
+                estimatedTime={guide.data.estimatedTime}
+                publishDate={guide.data.publishDate}
+                category={guide.data.category}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Todas las guías -->
+      <section class="mb-20">
+        <h2 class="text-3xl font-bold text-slate-800 mb-10 flex items-center">
+          <span class="text-blue-500 mr-3">📚</span>
+          Todas las Guías
+          <span class="ml-3 text-lg font-normal text-slate-500">
+            ({sortedGuides.length} disponibles)
+          </span>
+        </h2>
+        
+        {sortedGuides.length === 0 ? (
+          <div class="text-center py-20 bg-white rounded-xl shadow-sm border">
+            <div class="text-7xl mb-6">📋</div>
+            <h3 class="text-2xl font-semibold text-slate-700 mb-4">
+              Próximamente más guías
+            </h3>
+            <p class="text-slate-500 max-w-md mx-auto text-lg">
+              Estamos preparando contenido educativo de alta calidad. 
+              Vuelve pronto para encontrar guías detalladas sobre protección de datos.
+            </p>
+          </div>
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {sortedGuides.map((guide) => (
+              <Card
+                title={guide.data.title}
+                description={guide.data.description}
+                href={`/guides/${guide.slug}/`}
+                tags={guide.data.tags}
+                level={guide.data.level}
+                estimatedTime={guide.data.estimatedTime}
+                publishDate={guide.data.publishDate}
+                category={guide.data.category}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <!-- Categorías -->
+      <section class="mb-20">
+        <h2 class="text-3xl font-bold text-slate-800 mb-10">
+          📂 Explorar por Categoría
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Protección -->
+          <div class="bg-white p-8 rounded-xl shadow-sm border hover:shadow-lg transition-all duration-300">
+            <div class="text-4xl mb-4">🛡️</div>
+            <h3 class="text-xl font-semibold text-slate-800 mb-3">Protección Personal</h3>
+            <p class="text-slate-600 mb-4 leading-relaxed">
+              Contraseñas seguras, autenticación en dos factores, gestores de contraseñas.
+            </p>
+            <div class="text-sm text-slate-500 font-medium">
+              {guides.filter(g => g.data.category === 'proteccion').length} guías disponibles
+            </div>
+          </div>
+
+          <!-- Navegación -->
+          <div class="bg-white p-8 rounded-xl shadow-sm border hover:shadow-lg transition-all duration-300">
+            <div class="text-4xl mb-4">🌐</div>
+            <h3 class="text-xl font-semibold text-slate-800 mb-3">Navegación Segura</h3>
+            <p class="text-slate-600 mb-4 leading-relaxed">
+              WiFi público, detección de phishing, configuraciones de privacidad.
+            </p>
+            <div class="text-sm text-slate-500 font-medium">
+              {guides.filter(g => g.data.category === 'navegacion').length} guías disponibles
+            </div>
+          </div>
+
+          <!-- Privacidad -->
+          <div class="bg-white p-8 rounded-xl shadow-sm border hover:shadow-lg transition-all duration-300">
+            <div class="text-4xl mb-4">🔒</div>
+            <h3 class="text-xl font-semibold text-slate-800 mb-3">Privacidad Digital</h3>
+            <p class="text-slate-600 mb-4 leading-relaxed">
+              Redes sociales, datos personales, configuraciones de aplicaciones.
+            </p>
+            <div class="text-sm text-slate-500 font-medium">
+              {guides.filter(g => g.data.category === 'privacidad').length} guías disponibles
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Llamada a la acción -->
+      <section class="bg-gradient-to-r from-green-50 to-green-100 p-12 rounded-xl border border-green-200">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-green-800 mb-6">
+            ¿Necesitas ayuda específica?
+          </h2>
+          <p class="text-green-700 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+            Si no encuentras lo que buscas o tienes dudas específicas, 
+            recuerda que la seguridad es un proceso continuo de aprendizaje.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <a 
+              href="/tutorials" 
+              class="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-medium text-lg shadow-md hover:shadow-lg"
+            >
+              Ver Tutoriales Técnicos
+            </a>
+            <a 
+              href="/news" 
+              class="border-2 border-green-600 text-green-600 px-8 py-4 rounded-lg hover:bg-green-50 transition-colors font-medium text-lg shadow-md hover:shadow-lg"
+            >
+              Noticias de Seguridad
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <!-- Floating Audio Player -->
+  <FloatingAudioPlayer 
+    audioSrc="/por-que-es-importante-proteger-nuestros-datos.m4a"
+    title="¿Por qué proteger tus datos?"
+    autoplay={true}
+    position="bottom-right"
+  />
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+export interface Props {
+  title: string;
+  icon?: string;
+  variant?: 'blue' | 'green' | 'yellow' | 'purple';
+}
+
+const { title, icon = '💡', variant = 'blue' } = Astro.props;
+
+const variantStyles = {
+  blue: 'bg-blue-50 border-blue-200 text-blue-800',
+  green: 'bg-green-50 border-green-200 text-green-800',
+  yellow: 'bg-yellow-50 border-yellow-200 text-yellow-800',
+  purple: 'bg-purple-50 border-purple-200 text-purple-800'
+};
+
+const iconBgStyles = {
+  blue: 'bg-blue-100',
+  green: 'bg-green-100',
+  yellow: 'bg-yellow-100',
+  purple: 'bg-purple-100'
+};
+---
+
+<div class={`border-2 rounded-xl p-6 mb-6 ${variantStyles[variant]}`}>
+  <div class="flex items-start">
+    <div class={`${iconBgStyles[variant]} rounded-lg p-3 mr-4 flex-shrink-0`}>
+      <span class="text-2xl">{icon}</span>
+    </div>
+    
+    <div class="flex-1">
+      <h4 class="font-semibold text-lg mb-3">{title}</h4>
+      <div class="leading-relaxed">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>

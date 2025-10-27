@@ -1,9 +1,10 @@
 ---
 export interface Props {
   currentPath?: string;
+  hiddenLinks?: boolean;
 }
 
-const { currentPath = '' } = Astro.props;
+const { currentPath = '', hiddenLinks = false } = Astro.props;
 
 const navItems = [
   { name: 'Inicio', href: '/', icon: '🏠' },
@@ -29,7 +30,7 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:block">
+      { !hiddenLinks && <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-4">
           {navItems.map(item => (
             <a
@@ -41,10 +42,10 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
             </a>
           ))}
         </div>
-      </div>
+      </div>}
 
       <!-- Mobile menu button -->
-      <div class="md:hidden">
+      { !hiddenLinks && <div class="md:hidden">
         <button
           type="button"
           class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-green-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
@@ -57,11 +58,11 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-      </div>
+      </div>}
     </div>
 
     <!-- Mobile menu -->
-    <div class="mobile-menu hidden md:hidden" id="mobile-menu">
+    { !hiddenLinks && <div class="mobile-menu hidden md:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
         {navItems.map(item => (
           <a
@@ -77,7 +78,7 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
           </a>
         ))}
       </div>
-    </div>
+    </div>}
   </div>
 </nav>
 

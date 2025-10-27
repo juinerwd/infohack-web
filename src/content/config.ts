@@ -6,14 +6,18 @@ const guidesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    category: z.enum(['protege-tus-datos', 'seguridad-basica', 'privacidad']),
-    difficulty: z.enum(['fácil', 'medio']),
-    time: z.string(), // ej: "5 minutos"
+    level: z.enum(['principiante', 'intermedio', 'avanzado']).optional(),
+    category: z.enum(['proteccion', 'navegacion', 'privacidad', 'general']),
+    estimatedTime: z.string().optional(), // ej: "15 minutos"
     tags: z.array(z.string()),
     author: z.string().default('Equipo Infohack'),
     publishDate: z.date(),
     lastUpdate: z.date().optional(),
     featured: z.boolean().default(false),
+    ethicalDisclaimer: z.boolean().default(true),
+    prerequisites: z.array(z.string()).default([]),
+    tools: z.array(z.string()).default([]),
+    labEnvironment: z.string().optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
   }),
@@ -26,20 +30,19 @@ const tutorialsCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     level: z.enum(['principiante', 'intermedio', 'avanzado']),
-    category: z.enum(['web-security', 'network-security', 'malware', 'forensics', 'pentest', 'general']),
+    category: z.enum(['web', 'network', 'system', 'malware', 'forensics', 'pentest', 'general']),
+    estimatedTime: z.string().optional(), // ej: "30 minutos"
     tags: z.array(z.string()),
     author: z.string().default('Equipo Infohack'),
     publishDate: z.date(),
     lastUpdate: z.date().optional(),
-    estimatedTime: z.string(), // ej: "30 minutos"
     prerequisites: z.array(z.string()).default([]),
     tools: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
-    image: z.string().optional(),
-    imageAlt: z.string().optional(),
-    // Campos específicos de seguridad
     ethicalDisclaimer: z.boolean().default(true),
     labEnvironment: z.string().optional(), // Descripción del entorno de laboratorio
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
   }),
 });
 
@@ -49,8 +52,7 @@ const newsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    category: z.enum(['incidente', 'vulnerabilidad', 'herramienta', 'tendencia', 'legislacion']),
-    severity: z.enum(['baja', 'media', 'alta', 'crítica']).optional(),
+    category: z.enum(['amenazas', 'vulnerabilidades', 'regulacion', 'industria', 'investigacion', 'eventos']),
     tags: z.array(z.string()),
     author: z.string().default('Equipo Infohack'),
     publishDate: z.date(),
@@ -58,6 +60,7 @@ const newsCollection = defineCollection({
     source: z.string().optional(), // Fuente original de la noticia
     sourceUrl: z.string().url().optional(),
     featured: z.boolean().default(false),
+    ethicalDisclaimer: z.boolean().default(true),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
   }),
@@ -69,18 +72,13 @@ const resourcesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    type: z.enum(['curso', 'herramienta', 'canal-youtube', 'blog', 'documentacion', 'libro', 'podcast']),
-    category: z.enum(['aprendizaje', 'herramientas', 'referencias', 'comunidad']),
-    level: z.enum(['principiante', 'intermedio', 'avanzado', 'todos']),
+    category: z.enum(['herramientas', 'laboratorios', 'cursos', 'certificaciones', 'documentacion', 'comunidades']),
     tags: z.array(z.string()),
-    url: z.string().url(),
-    price: z.enum(['gratis', 'freemium', 'pago']),
-    language: z.enum(['español', 'inglés', 'multiidioma']),
     author: z.string().default('Equipo Infohack'),
     publishDate: z.date(),
     lastUpdate: z.date().optional(),
     featured: z.boolean().default(false),
-    rating: z.number().min(1).max(5).optional(),
+    ethicalDisclaimer: z.boolean().default(true),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
   }),

@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const tutorials = await getCollection('tutorials');
+  
+  return tutorials.map((tutorial) => ({
+    params: { slug: tutorial.slug },
+    props: { tutorial },
+  }));
+};
+
+type Props = {
+  tutorial: {
+    data: any;
+    render: () => Promise<{ Content: any }>;
+  };
+};
+
+const { tutorial } = Astro.props as Props;
+const { Content } = await tutorial.render();
+---
+
+<BlogLayout
+  title={tutorial.data.title}
+  description={tutorial.data.description}
+  publishDate={tutorial.data.publishDate}
+  author={tutorial.data.author}
+  tags={tutorial.data.tags}
+  category={tutorial.data.category}
+  level={tutorial.data.level}
+  estimatedTime={tutorial.data.estimatedTime}
+  ethicalDisclaimer={tutorial.data.ethicalDisclaimer}
+  prerequisites={tutorial.data.prerequisites}
+  tools={tutorial.data.tools}
+  labEnvironment={tutorial.data.labEnvironment}
+>
+  <Content />
+</BlogLayout>
