@@ -1,7 +1,32 @@
 {
   "name": "infohack",
+  "version": "1.0.0",
+  "description": "🔐 Plataforma educativa moderna sobre ciberseguridad construida con Astro",
   "type": "module",
-  "version": "0.0.1",
+  "author": {
+    "name": "Juiner",
+    "url": "https://github.com/juinerwd"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juinerwd/infohack-web.git"
+  },
+  "homepage": "https://www.infohack.info",
+  "bugs": {
+    "url": "https://github.com/juinerwd/infohack-web/issues"
+  },
+  "keywords": [
+    "astro",
+    "react",
+    "typescript",
+    "cybersecurity",
+    "education",
+    "security",
+    "static-site-generator",
+    "tailwindcss",
+    "content-collections"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

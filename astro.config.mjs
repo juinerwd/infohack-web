@@ -7,7 +7,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://infohack.dev', // URL del sitio en producción
+  site: 'https://www.infohack.info', // URL del sitio en producción
   integrations: [sitemap({
     // Configurar páginas a incluir/excluir del sitemap
     filter: (page) => 

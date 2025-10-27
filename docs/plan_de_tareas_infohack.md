@@ -28,7 +28,7 @@
 - [x] Componentes: NavBar, Footer, Card, PostList, Hero, Tag, SearchInput (placeholder)
 - [x] Configurar SEO básico: `<head>` dinámico, OpenGraph, Twitter Card
 - [x] Generar sitemap.xml y RSS feed
-- [ ] Configurar deploy en Vercel (o Netlify) y conectar al repo
+- [x] Configurar deploy en Vercel (o Netlify) y conectar al repo
 - [ ] Añadir CI básico (GitHub Actions) para build y tests de linter
 
 **✅ Correcciones técnicas realizadas:**
@@ -48,9 +48,9 @@
 
 ### Contenido inicial (crear archivos Markdown)
 - [ ] Crear 3–5 artículos **Protege tus datos** (usuarios comunes):
-  - [ ] Contraseñas seguras (pasos + ejemplos)
-  - [ ] Activar 2FA — WhatsApp / Gmail / Facebook
-  - [ ] Detectar phishing en correos y WhatsApp
+  - [x] Contraseñas seguras (pasos + ejemplos)
+  - [x] Activar 2FA — WhatsApp / Gmail / Facebook
+  - [x] Detectar phishing en correos y WhatsApp
   - [ ] Seguridad en Wi‑Fi públicas y routers domésticos
   - [ ] Banca en línea segura (consejos prácticos)
 - [ ] Crear 3 artículos **Aprende ciberseguridad** (principiante/intermedio):
@@ -61,7 +61,7 @@
 - [ ] Añadir 8–10 recursos (canales de YouTube, cursos gratuitos, documentación)
 
 ### UI / UX mínimas
-- [ ] Hero en home con CTA: “Soy usuario / Quiero aprender”
+- [x] Hero en home con CTA: “Soy usuario / Quiero aprender”
 - [ ] Página: Protege tus datos (colección con tarjetas)
 - [ ] Página: Aprende ciberseguridad (colección con tarjetas)
 - [ ] Página: Tutoriales (lista, filtros por nivel)
