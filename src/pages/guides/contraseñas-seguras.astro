@@ -1,16 +1,17 @@
 ---
-import BlogLayout from '../../layouts/BlogLayout.astro';
-import ChecklistBox from '../../components/content/ChecklistBox.astro';
-import WarningAlert from '../../components/content/WarningAlert.astro';
-import StepByStep from '../../components/content/StepByStep.astro';
-import TipCard from '../../components/content/TipCard.astro';
-import CallToAction from '../../components/content/CallToAction.astro';
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import ChecklistBox from "../../components/content/ChecklistBox.astro";
+import WarningAlert from "../../components/content/WarningAlert.astro";
+import StepByStep from "../../components/content/StepByStep.astro";
+import TipCard from "../../components/content/TipCard.astro";
+import CallToAction from "../../components/content/CallToAction.astro";
 import PasswordGenerator from "../../components/PasswordGenerator.astro";
 
 const pageData = {
   title: "Contraseñas Seguras: Guía Completa para Proteger tus Cuentas",
-  description: "Aprende a crear, gestionar y mantener contraseñas seguras. Guía práctica con herramientas y consejos para proteger todas tus cuentas online.",
-  publishDate: new Date('2025-01-11'),
+  description:
+    "Aprende a crear, gestionar y mantener contraseñas seguras. Guía práctica con herramientas y consejos para proteger todas tus cuentas online.",
+  publishDate: new Date("2025-01-11"),
   author: "Equipo Infohack",
   tags: ["contraseñas", "seguridad", "autenticacion", "2fa", "gestores"],
   ulrCategory: "guides",
@@ -19,7 +20,7 @@ const pageData = {
   estimatedTime: "15 minutos",
   ethicalDisclaimer: false,
   prerequisites: [],
-  tools: ["Gestor de contraseñas", "Aplicación 2FA"]
+  tools: ["Gestor de contraseñas", "Aplicación 2FA"],
 };
 
 const caracteristicasSeguras = [
@@ -28,7 +29,7 @@ const caracteristicasSeguras = [
   "No contiene información personal (nombres, fechas, etc.)",
   "Es única para cada cuenta o servicio",
   "No usa patrones de teclado (qwerty, 123456, etc.)",
-  "No contiene palabras del diccionario completas"
+  "No contiene palabras del diccionario completas",
 ];
 
 const erroresComunes = [
@@ -37,83 +38,94 @@ const erroresComunes = [
   "Usar contraseñas demasiado cortas (menos de 8 caracteres)",
   "Escribir contraseñas en notas físicas o archivos sin encriptar",
   "No cambiar contraseñas comprometidas inmediatamente",
-  "Compartir contraseñas por mensajes o correos"
+  "Compartir contraseñas por mensajes o correos",
 ];
 
 const pasosCreacion = [
   {
     title: "Elige un método de creación",
-    description: "Puedes usar un gestor de contraseñas (recomendado), crear una frase memorable, o usar el método de sustitución de caracteres.",
-    tip: "Los gestores de contraseñas son la opción más segura y conveniente."
+    description:
+      "Puedes usar un gestor de contraseñas (recomendado), crear una frase memorable, o usar el método de sustitución de caracteres.",
+    tip: "Los gestores de contraseñas son la opción más segura y conveniente.",
   },
   {
     title: "Genera una contraseña única",
-    description: "Si usas el método manual, piensa en una frase y transforma algunas letras en números o símbolos. Ejemplo: 'MiGato Come Atún 2025!' se convierte en 'M1G@t0C0m3@tun2025!'",
+    description:
+      "Si usas el método manual, piensa en una frase y transforma algunas letras en números o símbolos. Ejemplo: 'MiGato Come Atún 2025!' se convierte en 'M1G@t0C0m3@tun2025!'",
     tip: "Evita patrones obvios como sustituir todas las 'a' por '@'.",
-    component: PasswordGenerator
+    component: PasswordGenerator,
   },
   {
     title: "Verifica su fortaleza",
-    description: "Usa herramientas como How Secure Is My Password o el verificador de tu gestor de contraseñas para comprobar la fortaleza.",
-    tip: "Nunca ingreses tu contraseña real en verificadores online, solo contraseñas de ejemplo."
+    description:
+      "Usa herramientas como How Secure Is My Password o el verificador de tu gestor de contraseñas para comprobar la fortaleza.",
+    tip: "Nunca ingreses tu contraseña real en verificadores online, solo contraseñas de ejemplo.",
   },
   {
     title: "Almacénala de forma segura",
-    description: "Guarda la contraseña en tu gestor de contraseñas o, como último recurso, escríbela en un papel que guardes en lugar seguro.",
-    tip: "Los gestores de contraseñas son mucho más seguros que cualquier método manual."
-  }
+    description:
+      "Guarda la contraseña en tu gestor de contraseñas o, como último recurso, escríbela en un papel que guardes en lugar seguro.",
+    tip: "Los gestores de contraseñas son mucho más seguros que cualquier método manual.",
+  },
 ];
 ---
 
 <BlogLayout {...pageData}>
   <div class="guide-content max-w-4xl mx-auto">
-    
     <!-- Introducción -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">¿Por qué son importantes las contraseñas seguras?</h2>
-      
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        ¿Por qué son importantes las contraseñas seguras?
+      </h2>
+
       <div class="prose prose-lg mb-8">
         <p class="text-lg text-gray-700 leading-relaxed mb-6">
-          Las contraseñas son tu primera línea de defensa contra el acceso no autorizado a tus cuentas. 
-          Una contraseña débil puede comprometer toda tu vida digital: desde tus redes sociales hasta 
-          tu cuenta bancaria.
+          Las contraseñas son tu primera línea de defensa contra el acceso no
+          autorizado a tus cuentas. Una contraseña débil puede comprometer toda
+          tu vida digital: desde tus redes sociales hasta tu cuenta bancaria.
         </p>
-        
+
         <p class="text-lg text-gray-700 leading-relaxed">
-          En los últimos años, millones de contraseñas han sido filtradas en brechas de seguridad. 
-          Los ciberdelincuentes usan estas listas para intentar acceder a otras cuentas, por eso es 
-          crucial que cada contraseña sea única y robusta.
+          En los últimos años, millones de contraseñas han sido filtradas en
+          brechas de seguridad. Los ciberdelincuentes usan estas listas para
+          intentar acceder a otras cuentas, por eso es crucial que cada
+          contraseña sea única y robusta.
         </p>
       </div>
 
       <WarningAlert type="info" title="Dato importante">
-        Según estudios recientes, el 80% de las violaciones de datos se deben a contraseñas débiles o reutilizadas. 
-        Una buena práctica de contraseñas puede prevenir la mayoría de estos incidentes.
+        Según estudios recientes, el 80% de las violaciones de datos se deben a
+        contraseñas débiles o reutilizadas. Una buena práctica de contraseñas
+        puede prevenir la mayoría de estos incidentes.
       </WarningAlert>
     </section>
 
     <!-- Características de contraseñas seguras -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">¿Qué hace segura a una contraseña?</h2>
-      
-      <ChecklistBox 
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        ¿Qué hace segura a una contraseña?
+      </h2>
+
+      <ChecklistBox
         title="Características de una contraseña segura"
         items={caracteristicasSeguras}
         variant="success"
       />
 
       <TipCard title="¿Sabías que...?" icon="🎯" variant="blue">
-        Una contraseña de 12 caracteres con mayúsculas, minúsculas, números y símbolos 
-        tardaría aproximadamente <strong>34,000 años</strong> en ser descifrada por fuerza bruta 
-        con la tecnología actual.
+        Una contraseña de 12 caracteres con mayúsculas, minúsculas, números y
+        símbolos tardaría aproximadamente <strong>34,000 años</strong> en ser descifrada
+        por fuerza bruta con la tecnología actual.
       </TipCard>
     </section>
 
     <!-- Errores comunes -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Errores que debes evitar</h2>
-      
-      <ChecklistBox 
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        Errores que debes evitar
+      </h2>
+
+      <ChecklistBox
         title="Prácticas peligrosas con contraseñas"
         items={erroresComunes}
         variant="warning"
@@ -122,8 +134,10 @@ const pasosCreacion = [
 
     <!-- Cómo crear contraseñas seguras -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Cómo crear contraseñas seguras</h2>
-      
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        Cómo crear contraseñas seguras
+      </h2>
+
       <StepByStep steps={pasosCreacion} />
     </section>
 
@@ -151,44 +165,56 @@ const pasosCreacion = [
 
     <!-- Gestores de contraseñas -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Gestores de contraseñas recomendados</h2>
-      
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        Gestores de contraseñas recomendados
+      </h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <TipCard title="Bitwarden" icon="🔒" variant="green">
           <p class="mb-3"><strong>Gratuito y de código abierto</strong></p>
-          <p class="text-sm">Perfecto para empezar. Incluye generador de contraseñas, almacenamiento seguro y sincronización entre dispositivos.</p>
+          <p class="text-sm">
+            Perfecto para empezar. Incluye generador de contraseñas,
+            almacenamiento seguro y sincronización entre dispositivos.
+          </p>
         </TipCard>
 
         <TipCard title="1Password" icon="🛡️" variant="blue">
           <p class="mb-3"><strong>Premium pero muy completo</strong></p>
-          <p class="text-sm">Interfaz excelente, funciones familiares y características avanzadas de seguridad. Ideal para usuarios exigentes.</p>
+          <p class="text-sm">
+            Interfaz excelente, funciones familiares y características avanzadas
+            de seguridad. Ideal para usuarios exigentes.
+          </p>
         </TipCard>
       </div>
 
       <WarningAlert type="warning" title="Evita estos gestores">
-        No recomendamos guardar contraseñas en el navegador para sitios importantes, 
-        ya que suelen tener menos funciones de seguridad y son más vulnerables a malware.
+        No recomendamos guardar contraseñas en el navegador para sitios
+        importantes, ya que suelen tener menos funciones de seguridad y son más
+        vulnerables a malware.
       </WarningAlert>
     </section>
 
     <!-- Autenticación en dos factores -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Añade una capa extra: 2FA</h2>
-      
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        Añade una capa extra: 2FA
+      </h2>
+
       <div class="prose prose-lg mb-6">
         <p class="text-lg text-gray-700 leading-relaxed">
-          La autenticación en dos factores (2FA) añade una segunda verificación además de tu contraseña. 
-          Incluso si alguien obtiene tu contraseña, necesitará también tu teléfono o aplicación 2FA.
+          La autenticación en dos factores (2FA) añade una segunda verificación
+          además de tu contraseña. Incluso si alguien obtiene tu contraseña,
+          necesitará también tu teléfono o aplicación 2FA.
         </p>
       </div>
 
-      <ChecklistBox 
+      <ChecklistBox
         title="Mejores aplicaciones 2FA"
         items={[
           "Google Authenticator - Simple y confiable",
-          "Authy - Con respaldo en la nube encriptado", 
+          "Authy - Con respaldo en la nube encriptado",
           "Microsoft Authenticator - Integración con servicios Microsoft",
-          "Bitwarden Authenticator - Integrado con el gestor de contraseñas"
+          "Bitwarden Authenticator - Integrado con el gestor de contraseñas",
         ]}
         variant="info"
       />
@@ -196,70 +222,98 @@ const pasosCreacion = [
 
     <!-- Herramientas útiles -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Herramientas para verificar tu seguridad</h2>
-      
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        Herramientas para verificar tu seguridad
+      </h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <TipCard title="Have I Been Pwned" icon="🔍" variant="yellow">
-          <p class="mb-2"><strong>Verifica si tus datos fueron filtrados</strong></p>
-          <p class="text-sm">Ingresa tu email para ver si aparece en brechas de seguridad conocidas.</p>
-          <a href="https://haveibeenpwned.com" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+          <p class="mb-2">
+            <strong>Verifica si tus datos fueron filtrados</strong>
+          </p>
+          <p class="text-sm">
+            Ingresa tu email para ver si aparece en brechas de seguridad
+            conocidas.
+          </p>
+          <a
+            href="https://haveibeenpwned.com"
+            target="_blank"
+            class="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          >
             → Visitar Have I Been Pwned
           </a>
         </TipCard>
 
         <TipCard title="Verificadores de fortaleza" icon="💪" variant="purple">
-          <p class="mb-2"><strong>Prueba qué tan seguras son tus contraseñas</strong></p>
-          <p class="text-sm">⚠️ <em>Solo usa contraseñas de ejemplo, nunca tus contraseñas reales</em></p>
-          <p class="text-xs text-gray-600 mt-2">Busca "password strength checker" en tu buscador</p>
+          <p class="mb-2">
+            <strong>Prueba qué tan seguras son tus contraseñas</strong>
+          </p>
+          <p class="text-sm">
+            ⚠️ <em
+              >Solo usa contraseñas de ejemplo, nunca tus contraseñas reales</em>
+          </p>
+          <p class="text-xs text-gray-600 mt-2">
+            Busca "password strength checker" en tu buscador
+          </p>
         </TipCard>
       </div>
     </section>
 
     <!-- Qué hacer si tu contraseña fue comprometida -->
     <section class="mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Si descubres que tu contraseña fue comprometida</h2>
-      
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">
+        Si descubres que tu contraseña fue comprometida
+      </h2>
+
       <WarningAlert type="danger" title="Acción inmediata requerida">
-        Si Have I Been Pwned muestra que tu email apareció en una filtración, 
-        <strong>cambia inmediatamente</strong> las contraseñas de todas las cuentas importantes.
+        Si Have I Been Pwned muestra que tu email apareció en una filtración,
+        <strong>cambia inmediatamente</strong> las contraseñas de todas las cuentas
+        importantes.
       </WarningAlert>
 
-      <StepByStep 
+      <StepByStep
         steps={[
           {
             title: "Cambia la contraseña comprometida AHORA",
-            description: "No esperes. Accede a la cuenta afectada y cambia la contraseña inmediatamente por una completamente nueva y segura."
+            description:
+              "No esperes. Accede a la cuenta afectada y cambia la contraseña inmediatamente por una completamente nueva y segura.",
           },
           {
             title: "Revisa todas las cuentas con la misma contraseña",
-            description: "Si reutilizaste esa contraseña en otros sitios, cámbialas también. Esta es la razón por la que cada cuenta debe tener una contraseña única."
+            description:
+              "Si reutilizaste esa contraseña en otros sitios, cámbialas también. Esta es la razón por la que cada cuenta debe tener una contraseña única.",
           },
           {
             title: "Activa 2FA en cuentas importantes",
-            description: "Aprovecha para activar la autenticación en dos factores en email, redes sociales, banca online y servicios importantes."
+            description:
+              "Aprovecha para activar la autenticación en dos factores en email, redes sociales, banca online y servicios importantes.",
           },
           {
             title: "Monitorea tu cuenta por actividad sospechosa",
-            description: "Revisa los inicios de sesión recientes, configuraciones de cuenta y cualquier actividad que no reconozcas."
-          }
+            description:
+              "Revisa los inicios de sesión recientes, configuraciones de cuenta y cualquier actividad que no reconozcas.",
+          },
         ]}
       />
     </section>
 
     <!-- Llamada a la acción -->
-    <CallToAction 
+    <CallToAction
       title="¿Listo para mejorar tu seguridad?"
       description="Implementar buenas prácticas de contraseñas es uno de los pasos más importantes para proteger tu vida digital. Comienza hoy mismo."
       variant="success"
     >
-      <div slot="buttons" class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a 
+      <div
+        slot="buttons"
+        class="flex flex-col sm:flex-row gap-4 justify-center"
+      >
+        <a
           href="/guides/configurar-2fa"
           class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg"
         >
           Configurar 2FA →
         </a>
-        <a 
+        <a
           href="/guides/detectar-phishing"
           class="border-2 border-green-600 text-green-600 hover:bg-green-50 px-6 py-3 rounded-lg font-medium transition-colors"
         >
@@ -267,19 +321,19 @@ const pasosCreacion = [
         </a>
       </div>
     </CallToAction>
-
   </div>
 </BlogLayout>
 
 <style>
   .guide-content {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
   }
-  
+
   .prose {
     max-width: none;
   }
-  
+
   .prose p {
     margin-bottom: 1.5rem;
   }
